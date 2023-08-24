@@ -1,12 +1,5 @@
 {
   "development": {
-    "username": "placeholder",
-    "password": "placeholder",
-    "database": "placeholder",
-    "host": "placeholder",
-    "dialect": "mysql"
-  },
-  "development": {
     "username": "root",
     "password": null,
     "database": "database_development",
@@ -24,8 +17,7 @@
     "username": "root",
     "password": null,
     "database": "database_production",
-    "host": "127.0.0.1",
+    "host": "production_host",
     "dialect": "mysql"
   }
-  
 }
