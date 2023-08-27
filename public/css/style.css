@@ -69,7 +69,7 @@ header {
   margin-bottom: 10px;
 }
 
-.new-user button {
+.login button {
   background-color: #000;
   color: #fff;
   border: none;
@@ -78,8 +78,31 @@ header {
   margin-bottom: 10px;
 }
 
-.new-user button:hover {
+.login button:hover {
   background-color: #fff;
   color: #000;
   border: 1px solid #000;
 }
+
+/* Signup section */
+
+.signup-form input {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.signup button {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  margin-top: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.signup button:hover {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #000;
+}
+
