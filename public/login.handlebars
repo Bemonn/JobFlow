@@ -1,9 +1,8 @@
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    \
+
     <link href="css/style.css" rel="stylesheet" />
     <title>JobFlow</title>
   </head>
@@ -16,15 +15,16 @@
     <header>
       <div class="login">
         <h1>Login</h1>
-        <form>
+        <form id="login-form">
           <p>Username:</p>
-          <input />
+          <input type="text" name="username" id="email" />
           <p>Password:</p>
-          <input />
+          <input type="password" name="password" id="password" />
+          <div class="login-buttons">
+            <button id="login">Login</button>
+            <button id="sign-up">Sign Up</button>
+          </div>
         </form>
-        <div class="new-user">
-          <button>Sign Up</button>
-        </div>
       </div>
     </header>
   </body>

@@ -1,9 +1,11 @@
 // Importing required modules from Sequelize package
-const { Model, DataTypes } = require('sequelize');
+const { Model, DataTypes } = require("sequelize");
 
 // Importing database connection from configuration
-const sequelize = require('../config/connection');
+const bcrypt = require("bcrypt");
+const sequelize = require("../config/connection");
 
+// Importing bcrypt for password hashing
 // Defining our Employee model by extending the built-in Model class of Sequelize
 class Employee extends Model {}
 
@@ -46,6 +48,15 @@ Employee.init(
     },
   },
   {
+    hooks: {
+      beforeCreate: async (newEmployeeData) => {
+        newEmployeeData.password = await bcrypt.hash(
+          newEmployeeData.password,
+          10
+        );
+        return newEmployeeData;
+      },
+    },
     // Using the established database connection for this model
     sequelize,
     // Enabling timestamps for automatic `created_at` and `updated_at` fields
@@ -55,8 +66,8 @@ Employee.init(
     // Using underscores instead of camel-casing for field names
     underscored: true,
     // Defining the name of this model
-    modelName: 'employee',
-  },
+    modelName: "employee",
+  }
 );
 
 // Exporting the model for use in other parts of the application
