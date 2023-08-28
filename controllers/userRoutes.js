@@ -7,26 +7,19 @@ const { Employee } = require("../../models");
 
 router.post("/login", async (req, res) => {
   try {
-    const userData = await Employee.findOne({
-      where: { email: req.body.email },
-    });
-    if (!userData) {
-      res
-        .status(400)
-        .json({ message: "Incorrect email or password, please try again" });
+    const { email, password } = req.body;
+
+    const employeeData = await Employee.findOne({ where: { email } });
+
+    if (!employeeData || !employeeData.checkPassword(password)) {
+      res.status(400).json({ message: "Incorrect email or password!" });
       return;
     }
-    const validPassword = await userData.checkPassword(req.body.password);
-    if (!validPassword) {
-      res
-        .status(400)
-        .json({ message: "Incorrect email or password, please try again" });
-      return;
-    }
+
     req.session.save(() => {
-      req.session.user_id = userData.id;
+      req.session.user_id = employeeData.id;
       req.session.logged_in = true;
-      res.json({ user: userData, message: "You are now logged in!" });
+      res.json({ employee: employeeData, message: "You are now logged in!" });
     });
   } catch (err) {
     res.status(400).json(err);
@@ -49,30 +42,32 @@ router.post("/logout", (req, res) => {
 
 router.post("/signup", async (req, res) => {
   try {
-    const { username, password, confirmPassword } = req.body;
-    // Check if user exists
-    const userData = await Employee.findOne({
-      where: { username },
-    });
-    if (userData) {
-      res.status(400).json({ message: "User already exists" });
-      return;
-    }
-    // Check if passwords match
-    if (password !== confirmPassword) {
-      res.status(400).json({ message: "Passwords do not match" });
-      return;
-    }
-    // Create new user
-    const newUser = await Employee.create({
-      username,
+    const {
+      first_name,
+      last_name,
+      email,
       password,
+      confirm_password,
+      position,
+    } = req.body;
+
+    if (password !== confirm_password) {
+      res.status(400).json({ message: "Passwords do not match!" });
+      return;
+    }
+
+    const employeeData = await Employee.create({
+      first_name,
+      last_name,
+      email,
+      password,
+      position,
     });
-    // Save session
+
     req.session.save(() => {
-      req.session.user_id = newUser.id;
+      req.session.user_id = employeeData.id;
       req.session.logged_in = true;
-      res.json(newUser);
+      res.json(employeeData);
     });
   } catch (err) {
     res.status(400).json(err);

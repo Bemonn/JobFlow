@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -18,24 +17,18 @@
       <h2>Here is a list of all your employees</h2>
     </header>
     <div class="employee-list">
-      <button>Add Employee</button>
-      <button>Remove Employee</button>
+      <button id="delete-employee">Remove Employee</button>
       <ul>
-        <li>
-          <div class="list-header">
-            <button>Employee Name 1</button>
-          </div>
-        </li>
-        <li>
-          <div class="list-header">
-            <button>Employee Name 2</button>
-          </div>
-        </li>
-        <li>
-          <div class="list-header">
-            <button>Employee Name 3</button>
-          </div>
-        </li>
+        {{#each employees}}
+          <li>
+            <div class="list-header">
+              <button data-id="{{this.id}}">
+                {{this.first_name}}
+                {{this.last_name}}
+              </button>
+            </div>
+          </li>
+        {{/each}}
       </ul>
     </div>
   </body>
