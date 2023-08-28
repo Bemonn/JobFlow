@@ -6,7 +6,7 @@ const process = require("process");
 const basename = path.basename(__filename);
 
 const env = process.env.NODE_ENV || 'development';
-const config = require(`${__dirname}/../config/config.json`)[env];
+const config = require(`${__dirname}/../config/config.js`)[env];
 
 const db = {};
 
@@ -37,6 +37,9 @@ fs.readdirSync(__dirname)
     );
     db[model.name] = model;
   });
+
+db.Employee.hasMany(db.Task, { foreignKey: 'assigned_to' });
+db.Task.belongsTo(db.Employee, { foreignKey: 'assigned_to' });
 
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
