@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>JOBFLOW</title>
+
+    <!-- Custom fonts for this template-->
+    <!-- <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"> -->
+    <link href="../vendor/fontawesome-free-6.4.2-web/css/all.min.css" rel="stylesheet" type="text/css">
+    
+
+    <!-- Latest compiled and minified CSS -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/> -->
+    
+    
+    <!-- Latest Sortable -->
+    <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
+
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon">
+                    <i class="fa-solid fa-table-columns"></i>
+                    <!-- <span class="fa-solid fa-table-columns"></span> -->
+                </div>
+                <div class="sidebar-brand-text mx-3">JOBFLOW </div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="charts.html">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Tasks</span></a>
+            </li>
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="tables.html">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Archived Tasks</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+        </ul>
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mt-5 text-gray-800">JOBFLOW</h1>
+                    </div>
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                        
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <img class="img-profile rounded-circle"
+                                    src="img/undraw_profile.svg">
+
+                            </a> 
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Settings
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Activity Log
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Content Row -->
+                    <div class="row" id = "cardGroup">
+                        <!-- Card open task -->
+                        <div class="col-xl-4 col-lg-4">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Open Task</h6>
+                                    <button class="close" type="button" aria-label="Add" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <span aria-hidden="true">+</span>
+                                    </button>                          
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body" id = "cardOpenTask">
+                                    <!-- task one -->
+                                    <div class="card border-left-secondary shadow h-100 pt-2 mb-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <div class="col mr-2">
+                                            <div class="row">
+                                                <div class="col-6 text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    #TaskID: Task Name</div>
+                                                <div class="col-6 text-right text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Deadline</div>
+                                            </div>
+                                            <div class=" mb-0 font-weight-bold text-gray-800">Task Description</div>
+                                            <div class="row">
+                                                <div class="mt-0 col-6">
+                                                    <i class="fa-solid fa-mug-hot" style="color: #0ec9e1;"></i>                                                </div>
+                                                <div class="mt-0 col-6">
+                                                    <div class="d-flex justify-content-end">
+                                                        <img height="30px" width="30px" class="mx-1 img-profile rounded-circle" src="img/undraw_profile.svg">
+                                                        <img height="30px" width="30px" class="mx-1 img-profile rounded-circle" src="img/undraw_profile_1.svg">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>  
+                                    </div>
+                                    <!-- Task two -->
+                                    <div class="card border-left-secondary shadow h-100 pt-2 mb-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <div class="col mr-2">
+                                            <div class="row">
+
+                                                <div class="col-6 text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    #TaskID: Task Name</div>
+                                                <div class="col-6 text-right text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Deadline</div>
+                                            </div>
+                                            <div class=" mb-0 font-weight-bold text-gray-800">Task Description</div>
+                                            <div class="row">
+                                                <div class="mt-0 col-6">
+                                                    <!-- <i class="fas fa-calendar fa-1x text-gray-300"></i> -->
+                                                    <i class="fa-solid fa-rocket" style="color: #ffb005;"></i>
+                                                </div>
+                                                <div class="mt-0 col-6">
+                                                    <div class="d-flex justify-content-end">
+                                                        <img height="30px" width="30px" class="mx-1 img-profile rounded-circle" src="img/undraw_profile_3.svg">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>           
+                                    </div>
+                                    <!-- Task Three -->
+                                    <div class="card border-left-secondary shadow h-100 pt-2 mb-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <div class="col mr-2">
+                                            <div class="row">
+
+                                                <div class="col-6 text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    #TaskID: Task Name</div>
+                                                <div class="col-6 text-right text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Deadline</div>
+                                            </div>
+                                            <div class=" mb-0 font-weight-bold text-gray-800">Task Description xxxxxxxxxxx</div>
+                                            <div class=" mb-0 font-weight-bold text-gray-800">Task Description xxxxxxxxxxx</div>
+                                            <div class=" mb-0 font-weight-bold text-gray-800">Task Description xxxxxxxxxxx</div>
+                                            <div class=" mb-0 font-weight-bold text-gray-800">Task Description xxxxxxxxxxx</div>
+                                            <div class=" mb-0 font-weight-bold text-gray-800">Task Description xxxxxxxxxxx</div>
+
+                                            <div class="row">
+                                                <div class="mt-0 col-6">
+                                                    <!-- <i class="fas fa-calendar fa-1x text-gray-300"></i> -->
+                                                    <i class="fa-solid fa-triangle-exclamation" style="color: #ff0000;"></i>
+                                                    <i class="fa-solid fa-star" style="color: #e01044;"></i>
+
+                                                </div>
+                                                <div class="mt-0 col-6">
+                                                    <div class="d-flex justify-content-end">
+                                                        <img height="30px" width="30px" class="mx-1 img-profile rounded-circle" src="img/undraw_profile_2.svg">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>           
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card In Progress -->
+                        <div class="col-xl-4 col-lg-4">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">In Progress</h6>  
+                                    <button class="close" type="button" aria-label="Add" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <span aria-hidden="true">+</span>
+                                    </button>                                                      
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body" id = "cardInProgress">
+                                    <div class="card border-left-secondary shadow h-100 pt-2 mb-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <div class="col mr-2">
+                                            <div class="row">
+
+                                                <div class="col-6 text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    #TaskID: Task Name</div>
+                                                <div class="col-6 text-right text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Deadline</div>
+                                            </div>
+                                            <div class=" mb-0 font-weight-bold text-gray-800">Task Description</div>
+                                            <div class="row">
+                                                <div class="mt-0 col-6">
+                                                    <!-- <i class="fas fa-calendar fa-1x text-gray-300"></i> -->
+                                                    <i class="fa-solid fa-rocket" style="color: #ffb005;"></i>
+                                                </div>
+                                                <div class="mt-0 col-6">
+                                                    <div class="d-flex justify-content-end">
+                                                        <img height="30px" width="30px" class="mx-1 img-profile rounded-circle" src="img/undraw_profile_3.svg">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>           
+                                    </div>
+                                    <div class="card border-left-secondary shadow h-100 pt-2 mb-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <div class="col mr-2">
+                                            <div class="row">
+
+                                                <div class="col-6 text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    #TaskID: Task Name</div>
+                                                <div class="col-6 text-right text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Deadline</div>
+                                            </div>
+                                            <div class=" mb-0 font-weight-bold text-gray-800">Task Description</div>
+                                            <div class="row">
+                                                <div class="mt-0 col-6">
+                                                    <!-- <i class="fas fa-calendar fa-1x text-gray-300"></i> -->
+                                                    <i class="fa-solid fa-rocket" style="color: #ffb005;"></i>
+                                                </div>
+                                                <div class="mt-0 col-6">
+                                                    <div class="d-flex justify-content-end">
+                                                        <img height="30px" width="30px" class="mx-1 img-profile rounded-circle" src="img/undraw_profile_3.svg">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>           
+                                    </div>
+                                </div>
+                            </div>
+                        </div>    
+                        <!-- Card Completed -->                    
+                        <div class="col-xl-4 col-lg-4">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Completed</h6>    
+                                    <button class="close" type="button" aria-label="Add" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <span aria-hidden="true">+</span>
+                                    </button>                                                   
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body" id = "cardCompleted">
+                                    <!-- sample task -->
+                                    <div class="card border-left-secondary shadow h-100 pt-2 mb-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <div class="col mr-2">
+                                            <div class="row">
+
+                                                <div class="col-6 text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    #TaskID: Task Name</div>
+                                                <div class="col-6 text-right text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Deadline</div>
+                                            </div>
+                                            <div class=" mb-0 font-weight-bold text-gray-800">Task 1 Description</div>
+                                            <div class="row">
+                                                <div class="mt-0 col-6">
+                                                    <!-- <i class="fas fa-calendar fa-1x text-gray-300"></i> -->
+                                                    <i class="fa-solid fa-rocket" style="color: #ffb005;"></i>
+                                                </div>
+                                                <div class="mt-0 col-6">
+                                                    <div class="d-flex justify-content-end">
+                                                        <img height="30px" width="30px" class="mx-1 img-profile rounded-circle" src="img/undraw_profile_3.svg">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>           
+                                    </div>
+
+                                    <!-- sample task -->
+                                    <div class="card border-left-secondary shadow h-100 pt-2 mb-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <div class="col mr-2">
+                                            <div class="row">
+
+                                                <div class="col-6 text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    #TaskID: Task Name</div>
+                                                <div class="col-6 text-right text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Deadline</div>
+                                            </div>
+                                            <div class=" mb-0 font-weight-bold text-gray-800">Task Description</div>
+                                            <div class="row">
+                                                <div class="mt-0 col-6">
+                                                    <!-- <i class="fas fa-calendar fa-1x text-gray-300"></i> -->
+                                                    <i class="fa-solid fa-rocket" style="color: #ffb005;"></i>
+                                                </div>
+                                                <div class="mt-0 col-6">
+                                                    <div class="d-flex justify-content-end">
+                                                        <img height="30px" width="30px" class="mx-1 img-profile rounded-circle" src="img/undraw_profile_3.svg">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>           
+                                    </div>
+
+                                    <!-- sample task -->
+                                    <div class="card border-left-secondary shadow h-100 pt-2 mb-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <div class="col mr-2">
+                                            <div class="row">
+
+                                                <div class="col-6 text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    #TaskID: Task Name</div>
+                                                <div class="col-6 text-right text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Deadline</div>
+                                            </div>
+                                            <div class=" mb-0 font-weight-bold text-gray-800">Task Description</div>
+                                            <div class="row">
+                                                <div class="mt-0 col-6">
+                                                    <!-- <i class="fas fa-calendar fa-1x text-gray-300"></i> -->
+                                                    <i class="fa-solid fa-rocket" style="color: #ffb005;"></i>
+                                                </div>
+                                                <div class="mt-0 col-6">
+                                                    <div class="d-flex justify-content-end">
+                                                        <img height="30px" width="30px" class="mx-1 img-profile rounded-circle" src="img/undraw_profile_3.svg">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>           
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- modael -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-scrollable" style="height: 100hv;">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                        <!-- Task ID -->
+                      <h5 class="modal-title fs-5" id="exampleModalLabel">#TaskID</h5>
+
+                      <button class="close" type="button" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    </div>
+                    <div class="modal-body ">
+                        <!-- Task Title -->
+                        <!-- <div class="text-lg font-weight-bold text-primary text-uppercase mb-3" style="display:block;">
+                            Task Name Task Name Task Name Task Name Task Name Task Name Task Name
+                        </div> -->
+                        <input class="fs-4 form-control text-primary px-0" type="text" style="border: none;"
+                        value="Task Name Task Name Task Name" aria-label="default input example">
+
+                        <div class="row">
+                            <!-- Task Priority -->
+                            <div class="col-2 d-flex flex-column mb-3">
+                                <label for="members" class="form-label">Priority</label>
+                                <i class="fa-solid fa-rocket" style="color: #ffb005;"></i>
+                            </div>
+
+                            <!-- Task Status -->
+                            <div class="col-2 d-flex flex-column mb-3">
+                                <label for="members" class="form-label">Task Status</label>
+                                <!-- <i class="fa-solid fa-rocket" style="color: #ffb005;"></i> -->
+                                <span class="badge text-bg-success">Completed</span>
+
+                                <!-- <div class="card bg-success text-white shadow">
+                                    <div class="card-body">
+                                        Primary
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-row">
+                            <!-- Task Members -->
+                            <div class="d-flex flex-column mr-4">
+                                <label for="members" class="form-label">Members</label>
+                                <div id = "members">
+                                    <!-- <img height="50px" width="50px" class="mx-1 img-profile rounded-circle" src="img/undraw_profile_3.svg"> -->
+                                    <img height="50px" width="50px" class="mx-1 img-profile rounded-circle" src="img/undraw_profile_2.svg">                    
+                                    <botton class="text-lg btn btn-circle btn-secondary" style="height: 50px; width: 50px;" >
+                                        <i class="fa-solid fa-plus fa-xl" style="color: #fffdfd;"></i>                                
+                                    </botton>
+                                </div>
+                            </div>
+                            <!-- Task Deadline -->
+                            <div class="d-flex flex-column">
+                                <label class="form-label">Deadline</label>
+                                <p class="text-success" style="line-height: 50px;">15/December/2023</p>
+                            </div>
+                        </div>
+
+                        <!-- Task Description -->
+                        <div class="mb-3 my-3">
+                            <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        </div>
+                              
+                        <!-- Additional space filler, to be completed -->
+                        <div class="card-body border border-2 my-3">
+                            <p class="fw-bold">Activity</p>
+                            <div class="text-center">
+                                <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
+                                    src="img/undraw_posting_photo.svg" alt="...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2021</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+
+
+         
+
+    <!-- JS scripts for the index.js-->
+    <script src="./js/teamTaskBoard.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+</body>
+
+</html>

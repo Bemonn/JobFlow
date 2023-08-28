@@ -15,7 +15,8 @@
     "express-handlebars": "^7.1.2",
     "mysql2": "^3.6.0",
     "sequelize": "^6.32.1",
-    "sortablejs": "^1.15.0"
+    "sortablejs": "^1.15.0",
+    "dotenv": "^8.2.0"
   },
   "devDependencies": {
     "eslint": "^8.47.0",

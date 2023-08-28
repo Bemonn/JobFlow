@@ -1,32 +1,25 @@
+const path = require('path');
+
 const express = require('express');
+// const sequelize = require('./config/connection');
+const routes = require('./controllers');
+const exphbs = require('express-handlebars');
 
 const app = express();
-const PORT = 3000;
-const exphbs = require('express-handlebars');
-const { Sequelize } = require('sequelize');
-const config = require('./config/config.json').development;
+const PORT = process.env.PORT || 3001;
 
-const sequelize = new Sequelize(config.database, config.username, config.password, {
-  host: config.host,
-  dialect: 'mysql',
-});
+const hbs = exphbs.create({});
 
-sequelize.authenticate()
-  .then(() => {
-    console.log('Connection to the database has been established successfully.');
-  })
-  .catch((error) => {
-    console.error('Unable to connect to the database:', error);
-  });
-
-app.engine('handlebars', exphbs());
+app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
-// Basic server
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+app.use(routes);
+
+app.listen(PORT, () => console.log('Now listening'));
+// sequelize.sync({ force: false }).then(() => {
+// 	app.listen(PORT, () => console.log('Now listening'));
+// });
