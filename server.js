@@ -8,6 +8,13 @@ const app = express();
 
 const PORT = 3000;
 
+const exphbs = require('express-handlebars');
+const hbs = exphbs.create({}).engine;
+const { Sequelize } = require('sequelize');
+const config = require('./config/config.json').development;
+const tasks = require('./routes/tasks');
+
+
 const { Sequelize } = require("sequelize");
 const config = require("./config/config.json").development;
 
@@ -32,8 +39,10 @@ sequelize
     console.error("Unable to connect to the database:", error);
   });
 
-app.engine("handlebars", exphbs());
-app.set("view engine", "handlebars");
+
+  app.engine('handlebars', hbs);
+  app.set('view engine', 'handlebars');
+
 
 // Use express-session middleware
 app.use(
@@ -45,14 +54,21 @@ app.use(
   })
 );
 
-// Basic server
-app.get("/", (req, res) => {
+
+//middleware
+app.use(express.json());
+
+// Basic server routes
+app.get('/', (req, res) => {
+
   // Counting views for the current session
   req.session.views = (req.session.views || 0) + 1;
   res.send(
     `Hello World! You have viewed this page ${req.session.views} times.`
   );
 });
+ 
+app.use('/tasks', tasks);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
