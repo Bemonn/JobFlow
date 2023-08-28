@@ -19,7 +19,7 @@ const createTask = async (req,res) => {
     }
 };
 
-const getTask = (req,res) => {
+const getTask = async (req,res) => {
     try {
         const {id} = req.params
         const task = await Task.findOne({_id: id})
