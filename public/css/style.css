@@ -63,6 +63,9 @@ header {
 }
 
 /* Login section */
+.login h1 {
+  text-align: center;
+}
 
 .login-form input {
   display: block;
@@ -78,6 +81,16 @@ header {
   margin-bottom: 10px;
 }
 
+.login a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.login a:hover {
+  color: #000000;
+  text-decoration: none;
+}
+
 .login button:hover {
   background-color: #fff;
   color: #000;
@@ -85,6 +98,9 @@ header {
 }
 
 /* Signup section */
+.signup h1 {
+  text-align: center;
+}
 
 .signup-form input {
   display: block;
@@ -106,3 +122,6 @@ header {
   border: 1px solid #000;
 }
 
+.signup input {
+  margin: 5px;
+}
