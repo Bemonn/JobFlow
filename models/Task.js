@@ -40,6 +40,7 @@ Task.init(
     // Column to indicate the current status of the task with a default value of 'Pending'
     status: {
       type: DataTypes.STRING,
+      allowNull: false,
       defaultValue: 'Pending',
     },
   },
@@ -54,6 +55,9 @@ Task.init(
     underscored: true,
     // Defining the name of this model
     modelName: 'task',
+
+    // Sets the table name
+    tableName: 'tasks',
   },
 );
 

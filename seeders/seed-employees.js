@@ -1,5 +1,4 @@
-// Import necessary dependencies
-const db = require('../config/connection');
+// Import the Employee model
 const Employee = require('../models/Employee');
 
 // Sample data for seeding the employees table
@@ -8,7 +7,7 @@ const employeeData = [
     first_name: 'John',
     last_name: 'Doe',
     email: 'john.doe@example.com',
-    password: 'password123', // passwords need to be hashed (should already be working)
+    password: 'password123', // This password should be hashed during creation in the model
   },
   {
     first_name: 'Jane',
@@ -18,18 +17,14 @@ const employeeData = [
   },
 ];
 
-// Async function to seed employees
-const seedEmployees = async () => {
-  // Sync the model with the database, and recreate tables if they exist.
-  // Be cautious with force: true as it will drop tables if they already exist.
-  await db.sync({ force: true });
+module.exports = {
+  // The up method is responsible for seeding data into the Employees table
+  up: async (queryInterface, Sequelize) => {
+    await Employee.bulkCreate(employeeData);
+  },
 
-  // Use Sequelize's bulkCreate method to add the sample data to the employees table
-  await Employee.bulkCreate(employeeData);
-
-  // Exit the script
-  process.exit(0);
+  // Reverses up method removing seeded data from the employee table
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.bulkDelete('Employees', null, {});
+  }
 };
-
-// Execute the seeding function
-seedEmployees();
