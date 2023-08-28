@@ -2,7 +2,7 @@
 DROP DATABASE IF EXISTS jobflow;
 
 -- Create database
-CREATE DATABASE work_undesignated;
+CREATE DATABASE jobflow;
 
 -- Use the database
 USE jobflow;
