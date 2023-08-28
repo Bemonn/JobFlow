@@ -10,8 +10,8 @@ const PORT = 3000;
 
 const hbs = exphbs.create({}).engine;
 const { Sequelize } = require("sequelize");
-const config = require("./config/config.json").development;
-const tasks = require("./routes/tasks");
+const config = require("./config/config.js").development;
+const tasks = require("./controllers/tasksRoutes");
 
 const sequelize = new Sequelize(
   config.database,

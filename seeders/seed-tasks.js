@@ -1,6 +1,6 @@
 // Import necessary dependencies
 const db = require('../config/connection');
-const { Task } = require('../models');
+const Task = require('../models/Task');
 
 // Sample data for seeding the tasks table
 const taskData = [

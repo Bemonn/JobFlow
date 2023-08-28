@@ -1,9 +1,15 @@
+require('dotenv').config();
+
 // Importing necessary modules from Sequelize package
 const Sequelize = require('sequelize');
 
 // Importing our database configurations
 const env = process.env.NODE_ENV || 'development'; // Determine environment
-const config = require('./config.json')[env]; // Import the config.json and select the correct environment configuration
+const config = require('./config.js')[env]; // Import the config.js and select the correct environment configuration
+
+if (!config || !config.database || !config.username) {
+  throw new Error('Database configuration not found!');
+}
 
 // Setting up the Sequelize connection to the database
 let sequelize;
