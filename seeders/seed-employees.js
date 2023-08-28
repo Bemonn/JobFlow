@@ -1,6 +1,6 @@
 // Import necessary dependencies
 const db = require('../config/connection');
-const { Employee } = require('../models');
+const Employee = require('../models/Employee');
 
 // Sample data for seeding the employees table
 const employeeData = [
