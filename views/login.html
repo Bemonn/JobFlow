@@ -3,7 +3,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link href="css/style.css" rel="stylesheet" />
+    <link href="/public/css/style.css" rel="stylesheet" />
     <title>JobFlow</title>
   </head>
   <body>
@@ -16,13 +16,13 @@
       <div class="login">
         <h1>Login</h1>
         <form id="login-form">
-          <p>Username:</p>
-          <input type="text" name="username" id="email" />
+          <p>Email: </p>
+          <input type="text" name="email" placeholder="Email" required />
           <p>Password:</p>
-          <input type="password" name="password" id="password" />
+          <input type="password" name="password" placeholder="Password" required />
           <div class="login-buttons">
             <button id="login">Login</button>
-            <button id="sign-up">Sign Up</button>
+            <button id="sign-up"><a href="signup.html">Sign Up</a></button>
           </div>
         </form>
       </div>

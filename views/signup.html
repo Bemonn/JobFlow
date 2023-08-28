@@ -2,7 +2,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="css/style.css" rel="stylesheet" />
+    <link href="/public/css/style.css" rel="stylesheet" />
     <title>JobFlow</title>
   </head>
   <body>
@@ -15,25 +15,44 @@
     <header>
       <div class="signup">
         <h1>JobFlow</h1>
-        <form id="signup">
+        <form id="signup-form" action="/api/user/signup" method="POST">
           <h2>Sign Up</h2>
 
-          <input type="text" name="username" placeholder="Username" required />
+          <input
+            type="text"
+            name="first_name"
+            placeholder="First Name"
+            required
+          />
+        </br>
+          <input
+            type="text"
+            name="last_name"
+            placeholder="Last Name"
+            required
+          />
+        </br>
+          <input type="email" name="email" placeholder="Email" required />
+        </br>
+          <input type="text" name="position" placeholder="Position" />
+        </br>
           <input
             type="password"
             name="password"
             placeholder="Password"
             required
           />
+        </br>
           <input
             type="password"
             name="confirm_password"
             placeholder="Confirm Password"
             required
           />
+        </br>
           <button type="submit" name="submit">Sign Up</button>
         </form>
-        <p>Already have an account? <a href="insert path here">Login</a></p>
+        <p>Already have an account? <a href="login.html">Login</a></p>
       </div>
     </header>
   </body>
