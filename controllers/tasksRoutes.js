@@ -1,46 +1,92 @@
 const express = require('express');
 const router = express.Router();
 
-//getting all task
-const Task = require('../models/Task');
+const { Task } = require("../../models");
 
-const getAllTasks = async (req,res) => {
-    try {
-        const tasks = await Task.findAll;
+//Getting all task
+router.get("/tasks", async (req, res)=> {
+    const { TaskId } = req.params.id;
+  
+    Task.findAll({
+      where: {
+        TaskId: TaskId,
+      },
+      order: [["deadline", "DESC"]],
+      include: [
+        {
+          model: User,
+          attributes: ["id", "task_name", "deadline", "assigned_to"],
+        },
+      ],
+      order: [["deadline", "ASC"]],
+    })
+      .then((task) => {
         res.status(201).json({ tasks });
-    } catch (error) {
-        res.status(500).json({ msg:error });
-    }
-};
+      })
+      .catch((err) =>
+        res.status(500).send({
+          err,
+        })
+      );
+  }); 
 
-const createTask = async (req,res) => {
+//Create a task
+router.post("/tasks", async (req, res) => {
     try {
-        const task = await Task.create(req.body);
-        res.status(201).json({ task });
-    } catch (error) {
-        res.status(500).json({ msg:error });
+      const {
+        id,
+        task_name,
+        description,
+        deadline,
+        assigned_to,
+        status,
+      } = req.body;
+      if (!req.session.logged_in = true) {
+        res.status(400).json({ message: "You must be logged in" });
+        return;
+      }
+      const taskData = await Task.create(req.body);
+    } catch (err) {
+        res.status(500).json(err);
     }
-};
+  });
 
-const getTask = async (req,res) => {
+//Get specific task by id
+router.get("/tasks/:id", async (req, res) => {
     try {
-        const {id} = req.params
-        const task = await Task.findOne({_id: taskID});
-        res.status(200).json({ task });
-        if(!task){
-        return res.status(404).json({msg: `No task with thisid : ${taskID}`});
+      const taskData = await Task.findByPk(req.params.id);
+      if (!taskData) {
+        res.status(404).json({ message: "No task found with this id!" });
+        return;
+      }
+      res.status(200).json(taskData);
+    } catch (err) {
+      res.status(500).json(err);
     }
-        res.status(200).json({ task });
-    }   catch (error) {
-        res.status(500).json({ msg:error });
-    }
-};
+  });
 
-const updateTask = (req,res) => {
-    res.send('update task');
-};
 
-router.delete('/:id', async (req, res) => {
+//update a task
+router.patch('/tasks/:id', async (req, res) => {
+    try {
+        const updateData = await Task.update({
+          where: {
+            id: req.params.id,
+            user_id: req.session.user_id,
+          },
+        });
+        if (!updateData) {
+          res.status(404).json({ message: 'No task found with this id!' });
+          return;
+        }
+        res.status(200).json(updateData);
+      } catch (err) {
+        res.status(500).json(err);
+      }
+});
+
+//Delete a task
+router.delete('/tasks/:id', async (req, res) => {
     try {
         const deleteData = await Task.destroy({
           where: {
@@ -58,22 +104,5 @@ router.delete('/:id', async (req, res) => {
       }
 });
     
-
-module.exports = {
-    getAllTasks, 
-    createTask, 
-    getTask, 
-    updateTask, 
-    deleteTask
-}
-
-
-
-
-//importing from controller CRUD 
-const { getAllTasks, createTask, getTask, updateTask, deleteTask } = require('../controllers/tasksRoutes');
-
-router.route('/').get(getAllTasks).post(createTask);
-router.route('/:id').get(getTask).patch(updateTask).delete(deleteTask);
 
 module.exports = router;
