@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "lint-fix": "npx eslint **/*.js --fix"
+    "lint-fix": "npx eslint **/*.js --fix",
+    "lint": "npx eslint **/*.js"
+
 
   },
   "keywords": [],
@@ -19,7 +21,9 @@
     "express-handlebars": "^7.1.2",
     "express-session": "^1.17.3",
     "mysql2": "^3.6.0",
-    "sequelize": "^6.32.1"
+    "sequelize": "^6.32.1",
+    "sortablejs": "^1.15.0"
+
   },
   "devDependencies": {
     "eslint": "^8.47.0",
