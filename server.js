@@ -19,14 +19,14 @@ app.engine("handlebars", hbs);
 app.set("view engine", "handlebars");
 
 // Use express-session middleware
-// app.use(
-//   session({
-//     secret: "your_secret_key", // this secret will be used for signing the session ID cookie. Change it to your own secret string.
-//     resave: false, // force the session to be saved back to the session store
-//     saveUninitialized: false, // save uninitialized session to the store
-//     cookie: { secure: "auto" }, // automatically set the cookie as secure if the request is secure
-//   }),
-// );
+app.use(
+  session({
+    secret: "your_secret_key", // this secret will be used for signing the session ID cookie. Change it to your own secret string.
+    resave: false, // force the session to be saved back to the session store
+    saveUninitialized: false, // save uninitialized session to the store
+    cookie: { secure: "auto" }, // automatically set the cookie as secure if the request is secure
+  }),
+);
 
 // middleware
 app.use(express.json());

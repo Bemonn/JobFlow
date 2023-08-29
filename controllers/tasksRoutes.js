@@ -5,6 +5,15 @@ const Task = require("../models/Task");
 
 // CRUD Functions
 
+router.get("/", async (req, res) => {
+  try {
+    res.render("teamTaskBoard");
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
 const getAllTasks = async (req, res) => {
   try {
     const tasks = await Task.findAll();
