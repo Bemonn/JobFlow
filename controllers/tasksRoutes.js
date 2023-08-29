@@ -6,14 +6,14 @@ const Task = require("../models/Task");
 
 // CRUD Functions
 
-async function getAllTasks(req, res) {
+const getAllTasks = async (req, res) => {
   try {
     const tasks = await Task.findAll();
     res.status(200).json({ tasks });
   } catch (error) {
     res.status(500).json({ msg: error });
   }
-}
+};
 
 const createTask = async (req, res) => {
   try {
