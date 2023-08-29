@@ -1,6 +1,7 @@
 require("dotenv").config();
+
 const express = require("express");
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 const session = require("express-session"); // import express-session
 const exphbs = require("express-handlebars");
 const tasks = require("./controllers/tasksRoutes");
@@ -22,7 +23,7 @@ app.use(
     resave: false, // force the session to be saved back to the session store
     saveUninitialized: false, // save uninitialized session to the store
     cookie: { secure: "auto" }, // automatically set the cookie as secure if the request is secure
-  })
+  }),
 );
 
 // middleware
@@ -33,7 +34,7 @@ app.get("/", (req, res) => {
   // Counting views for the current session
   req.session.views = (req.session.views || 0) + 1;
   res.send(
-    `Hello World! You have viewed this page ${req.session.views} times.`
+    `Hello World! You have viewed this page ${req.session.views} times.`,
   );
 });
 

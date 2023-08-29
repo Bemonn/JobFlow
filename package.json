@@ -8,8 +8,6 @@
     "start": "node server.js",
     "lint-fix": "npx eslint **/*.js --fix",
     "lint": "npx eslint **/*.js"
-
-
   },
   "keywords": [],
   "author": "",
@@ -23,10 +21,11 @@
     "mysql2": "^3.6.0",
     "sequelize": "^6.32.1",
     "sortablejs": "^1.15.0"
-
   },
   "devDependencies": {
-    "eslint": "^8.47.0",
+    "eslint": "^7.12.1",
+    "eslint-config-prettier": "^6.15.0",
+    "prettier": "^2.1.2",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.28.1"
   }
