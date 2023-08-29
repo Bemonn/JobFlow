@@ -1,8 +1,8 @@
 // Importing required modules from Sequelize package
-const { Model, DataTypes } = require('sequelize');
+const { Model, DataTypes } = require("sequelize");
 
 // Importing database connection from configuration
-const sequelize = require('../config/connection');
+const sequelize = require("../config/connection");
 
 // Defining our Task model by extending the built-in Model class of Sequelize
 class Task extends Model {}
@@ -29,19 +29,11 @@ Task.init(
     deadline: {
       type: DataTypes.DATE,
     },
-    // Foreign key column linking this task to an employee
-    assigned_to: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'employee', // Refers to the Employee model
-        key: 'id', // Using the id field of the Employee model
-      },
-    },
-    // Column to indicate the current status of the task with a default value of 'Pending'
+    // Status column to indicate the current status of the task with a default value of 'Pending'
     status: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: 'Pending',
+      defaultValue: "Pending",
     },
   },
   {
@@ -54,11 +46,8 @@ Task.init(
     // Using underscores instead of camel-casing for field names
     underscored: true,
     // Defining the name of this model
-    modelName: 'task',
-
-    // Sets the table name
-    tableName: 'tasks',
-  },
+    modelName: "task",
+  }
 );
 
 // Exporting the model for use in other parts of the application

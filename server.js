@@ -1,38 +1,16 @@
+require("dotenv").config();
 const express = require("express");
 // eslint-disable-next-line import/no-extraneous-dependencies
 const session = require("express-session"); // import express-session
-
 const exphbs = require("express-handlebars");
+const tasks = require("./controllers/tasksRoutes");
+const sequelize = require("./config/connection");
 
 const app = express();
 
 const PORT = 3000;
 
 const hbs = exphbs.create({}).engine;
-const { Sequelize } = require("sequelize");
-const config = require("./config/config.js").development;
-const tasks = require("./controllers/tasksRoutes");
-
-const sequelize = new Sequelize(
-  config.database,
-  config.username,
-  config.password,
-  {
-    host: config.host,
-    dialect: "mysql",
-  }
-);
-
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log(
-      "Connection to the database has been established successfully."
-    );
-  })
-  .catch((error) => {
-    console.error("Unable to connect to the database:", error);
-  });
 
 app.engine("handlebars", hbs);
 app.set("view engine", "handlebars");
@@ -47,7 +25,7 @@ app.use(
   })
 );
 
-//middleware
+// middleware
 app.use(express.json());
 
 // Basic server routes
@@ -61,6 +39,13 @@ app.get("/", (req, res) => {
 
 app.use("/tasks", tasks);
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+sequelize
+  .sync({ force: false })
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error("Unable to connect to the database:", error);
+  });
