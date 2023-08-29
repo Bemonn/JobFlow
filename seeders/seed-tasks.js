@@ -1,5 +1,4 @@
-// Import necessary dependencies
-const db = require('../config/connection');
+// Import the Task model
 const Task = require('../models/Task');
 
 // Sample data for seeding the tasks table
@@ -16,18 +15,14 @@ const taskData = [
   },
 ];
 
-// Async function to seed tasks
-const seedTasks = async () => {
-  // Sync the model with the database, and recreate tables if they exist
-  // CAUTION with force: true as it will drop tables if they already exist
-  await db.sync({ force: true });
+module.exports = {
+  // The up method is responsible for seeding data into the Tasks table
+  up: async (queryInterface, Sequelize) => {
+    await Task.bulkCreate(taskData);
+  },
 
-  // Use Sequelize's bulkCreate method to add the sample data to the tasks table
-  await Task.bulkCreate(taskData);
-
-  // Exit the script
-  process.exit(0);
+  // Reverses up method removing seeded data from the Tasks table
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.bulkDelete('Tasks', null, {});
+  }
 };
-
-// Execute the seeding function
-seedTasks();

@@ -67,6 +67,8 @@ Employee.init(
     underscored: true,
     // Defining the name of this model
     modelName: "employee",
+    // Sets the table name
+    tableName: 'employees',
   }
 );
 
