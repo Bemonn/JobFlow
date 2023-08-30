@@ -10,5 +10,5 @@
 - Run the server: node server.js
 - NOTE - if the tables need to be unseeded or reset use: npx sequelize-cli db:migrate:undo:all
 
-- node .\seeders\seed.js 
-- node .\server.js   
+- node ./seeders/seed.js
+- node ./server.js
