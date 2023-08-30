@@ -49,14 +49,14 @@ Employee.init(
     // Column for employee's profile picture url
     profile_pic_link: {
       type: DataTypes.STRING,
-    }
+    },
   },
   {
     hooks: {
       beforeCreate: async (newEmployeeData) => {
         newEmployeeData.password = await bcrypt.hash(
           newEmployeeData.password,
-          10
+          10,
         );
         return newEmployeeData;
       },
@@ -71,7 +71,7 @@ Employee.init(
     underscored: true,
     // Defining the name of this model
     modelName: "employee",
-  }
+  },
 );
 
 // Exporting the model for use in other parts of the application

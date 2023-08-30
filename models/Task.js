@@ -30,10 +30,12 @@ Task.init(
       type: DataTypes.DATE,
     },
     // Status column to indicate the current status of the task with a default value of 'Pending'
-    status: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: "Pending",
+    status_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: "taskStatus",
+        key: "id",
+      },
     },
   },
   {

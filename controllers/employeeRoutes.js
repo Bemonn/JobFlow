@@ -57,10 +57,9 @@ router.put("/:id", async (req, res) => {
       {
         where: { id: req.params.id },
       },
-    )
-      .then((updatedEmployee) => {
-        res.json(updatedEmployee);
-      });
+    ).then((updatedEmployee) => {
+      res.json(updatedEmployee);
+    });
   } catch (err) {
     res.status(500).json(err);
   }
