@@ -32,7 +32,7 @@ EmployeeTask.init(
     freezeTableName: true,
     underscored: true,
     modelName: "employee_task",
-  }
+  },
 );
 
 module.exports = EmployeeTask;
