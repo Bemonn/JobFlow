@@ -8,20 +8,20 @@ router.get("/", async (req, res) => {
     // Get all Task and JOIN with user data
     const tasksData = await Task.findAll({
       include: [
-        {
-          model: Employee,
-          attributes: ["first_name"],
-          attributes: ["last_name"],
-        },
+        // {
+        //   model: Employee,
+        //   attributes: ["first_name", "last_name"],
+        // },
         {
           model: TaskStatus,
         },
+        { model: Employee, through: EmployeeTask, as: "task_employees" },
       ],
     });
 
     // Serialize data so the template can read it
     const tasks = tasksData.map((task) => task.get({ plain: true }));
-
+    // console.log(tasks[0]);
     // Pass serialized data and session flag into template
     res.render("teamTaskBoard", {
       tasks,

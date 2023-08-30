@@ -9,31 +9,28 @@
         class="col-6 text-xs font-weight-bold text-primary text-uppercase mb-1"
       >
         #{{id}}:
-        {{task_name}}</div>
+        {{!-- {{task_name}} --}}
+      </div>
       <div
         class="col-6 text-right text-xs font-weight-bold text-primary text-uppercase mb-1"
       >
         {{deadline}}</div>
     </div>
-    <div class="mb-0 font-weight-bold text-gray-800">{{description}}</div>
+    <div class="mb-0 font-weight-bold text-gray-800">{{task_name}}</div>
     <div class="row">
-      <div class="mt-0 col-6">
+      {{! <div class="mt-0 col-6">
         <i class="fas fa-rocket" style="color: #ff0000;"></i>
-      </div>
-      <div class="mt-0 col-6">
+      </div> }}
+      <div class="mt-0 col-12">
         <div class="d-flex justify-content-end">
-          <img
-            height="30px"
-            width="30px"
-            class="mx-1 img-profile rounded-circle"
-            src="img/undraw_profile.svg"
-          />
-          <img
-            height="30px"
-            width="30px"
-            class="mx-1 img-profile rounded-circle"
-            src="img/undraw_profile_1.svg"
-          />
+          {{#each task_employees as |task_employee|}}
+            <img
+              height="30px"
+              width="30px"
+              class="mx-1 img-profile rounded-circle"
+              src={{task_employee.profile_pic_link}}
+            />
+          {{/each}}
         </div>
       </div>
     </div>
