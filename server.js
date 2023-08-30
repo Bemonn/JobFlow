@@ -22,6 +22,11 @@ const hbs = exphbs.create({
         return false;
       }
     },
+    formatDate: function (date) {
+      // Format the date to your desired format (e.g., "YYYY-MM-DD")
+      const formattedDate = date.toISOString().split("T")[0];
+      return formattedDate;
+    },
   },
 }).engine;
 

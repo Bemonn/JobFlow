@@ -8,13 +8,15 @@
       <div
         class="col-6 text-xs font-weight-bold text-primary text-uppercase mb-1"
       >
-        #{{id}}:
+        Task ID:
+        {{id}}
         {{!-- {{task_name}} --}}
       </div>
       <div
         class="col-6 text-right text-xs font-weight-bold text-primary text-uppercase mb-1"
       >
-        {{deadline}}</div>
+        Due:
+        {{formatDate deadline}}</div>
     </div>
     <div class="mb-0 font-weight-bold text-gray-800">{{task_name}}</div>
     <div class="row">

@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
 
     // Serialize data so the template can read it
     const tasks = tasksData.map((task) => task.get({ plain: true }));
-    // console.log(tasks[0]);
+    console.log(tasks[0]);
     // Pass serialized data and session flag into template
     res.render("teamTaskBoard", {
       tasks,
