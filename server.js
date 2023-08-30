@@ -5,7 +5,7 @@ const express = require("express");
 
 const session = require("express-session"); // import express-session
 const exphbs = require("express-handlebars");
-const tasks = require("./controllers/tasksRoutes");
+const tasks = require("./controllers/api/tasksRoutes");
 const sequelize = require("./config/connection");
 const routes = require("./controllers");
 

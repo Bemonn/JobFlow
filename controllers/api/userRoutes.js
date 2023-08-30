@@ -1,7 +1,7 @@
 // This handles the login information for the user
 
 const router = require("express").Router();
-const { Employee } = require("../models/Employee");
+const { Employee } = require("../../models");
 
 // POST /api/user/login
 
