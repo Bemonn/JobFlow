@@ -1,12 +1,13 @@
 const express = require("express");
+
 const router = express.Router();
 const { Employee } = require("../../models");
 
 // get information for all employees
 
-router.get("/employees", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const employeeData = await Employee.findAll();
+    const employeeData = await Employee.findAll({});
     res.status(200).json(employeeData);
   } catch (err) {
     res.status(500).json(err);
@@ -15,7 +16,7 @@ router.get("/employees", async (req, res) => {
 
 // get information for one employee
 
-router.get("/employees/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const employeeData = await Employee.findByPk(req.params.id);
     if (!employeeData) {
@@ -30,7 +31,7 @@ router.get("/employees/:id", async (req, res) => {
 
 // delete employee
 
-router.delete("/employees/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const employeeData = await Employee.destroy({
       where: {
@@ -47,9 +48,9 @@ router.delete("/employees/:id", async (req, res) => {
   }
 });
 
-// Update employee profile picture URL with ID
 router.put("/:id", async (req, res) => {
   try {
+    // eslint-disable-next-line no-unused-vars
     const employeeData = await Employee.update(
       {
         profile_pic_link: req.body.url,
