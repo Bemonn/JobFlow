@@ -13,7 +13,17 @@ const app = express();
 
 const PORT = 3000;
 
-const hbs = exphbs.create({}).engine;
+const hbs = exphbs.create({
+  helpers: {
+    compare: function (variableOne, comparator, variableTwo) {
+      if (eval(variableOne + comparator + variableTwo)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  },
+}).engine;
 
 app.engine("handlebars", hbs);
 app.set("view engine", "handlebars");

@@ -31,7 +31,7 @@ const taskData = [
     task_name: "Roof Installation",
     description: "Install the roof structure and roofing materials.",
     deadline: "2023-08-28",
-    status_id: 3,
+    status_id: 1,
   },
   {
     task_name: "HVAC System Setup",
@@ -44,7 +44,7 @@ const taskData = [
     task_name: "Paving Parking Lot",
     description: "Pave the parking lot area and apply markings.",
     deadline: "2023-09-02",
-    status_id: 3,
+    status_id: 2,
   },
   {
     task_name: "Plumbing Installation",
@@ -58,7 +58,7 @@ const taskData = [
     description:
       "Apply finishes to walls, floors, and ceilings in the residential complex.",
     deadline: "2023-08-26",
-    status_id: 3,
+    status_id: 1,
   },
   {
     task_name: "Landscaping",

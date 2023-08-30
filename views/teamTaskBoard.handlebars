@@ -142,11 +142,12 @@
 						<!-- Card Body -->
 						<div class='card-body' id='cardOpenTask'>
 							<!-- task one -->
-							{{> task-details}}
-							{{> task-details}}
-							{{> task-details}}
-							{{> task-details}}
-							{{> task-details}}
+
+							{{#each tasks as |task|}}
+								{{#if (compare task.taskStatus.id '===' 1)}}
+									{{> task-details}}
+								{{/if}}
+							{{/each}}
 						</div>
 					</div>
 				</div>
@@ -170,12 +171,11 @@
 						</div>
 						<!-- Card Body -->
 						<div class='card-body' id='cardInProgress'>
-							{{> task-details}}
-							{{> task-details}}
-							{{> task-details}}
-							{{> task-details}}
-							{{> task-details}}
-							{{> task-details}}
+							{{#each tasks as |task|}}
+								{{#if (compare task.taskStatus.id '===' 2)}}
+									{{> task-details}}
+								{{/if}}
+							{{/each}}
 						</div>
 					</div>
 				</div>
@@ -192,11 +192,11 @@
 						</div>
 						<!-- Card Body -->
 						<div class="card-body" id = "cardCompleted">
-							{{> task-details}}
-							{{> task-details}}
-							{{> task-details}}
-							{{> task-details}}
-							{{> task-details}}
+							{{#each tasks as |task|}}
+								{{#if (compare task.taskStatus.id '===' 3)}}
+									{{> task-details}}
+								{{/if}}
+							{{/each}}
 						</div>
 					</div>
 				</div>
