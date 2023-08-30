@@ -47,7 +47,7 @@ Task.init(
     underscored: true,
     // Defining the name of this model
     modelName: "task",
-  }
+  },
 );
 
 // Exporting the model for use in other parts of the application

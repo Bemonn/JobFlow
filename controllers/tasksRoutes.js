@@ -1,19 +1,27 @@
 const express = require("express");
-
 const router = express.Router();
 
 const Task = require("../models/Task");
 
 // CRUD Functions
 
-async function getAllTasks(req, res) {
+router.get("/", async (req, res) => {
+  try {
+    res.render("teamTaskBoard");
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+const getAllTasks = async (req, res) => {
   try {
     const tasks = await Task.findAll();
     res.status(200).json({ tasks });
   } catch (error) {
     res.status(500).json({ msg: error });
   }
-}
+};
 
 const createTask = async (req, res) => {
   try {
