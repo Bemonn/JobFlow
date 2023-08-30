@@ -50,6 +50,10 @@ Employee.init(
     position: {
       type: DataTypes.STRING,
     },
+    // Column for employee's profile picture url
+    profile_pic_link: {
+      type: DataTypes.STRING,
+    }
   },
   {
     hooks: {
