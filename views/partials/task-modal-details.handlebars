@@ -12,7 +12,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <!-- Task ID -->
-        <h5 class="modal-title fs-5" id="exampleModalLabel">Task ID: id</h5>
+        <h5 class="modal-title fs-5" id="modalIDLabel">Task ID: id</h5>
 
         <button
           class="close"
@@ -30,6 +30,7 @@
                         </div> -->
         <input
           class="fs-4 form-control text-primary px-0"
+          id="modalNameInput"
           type="text"
           style="border: none;"
           value="task name"
@@ -38,17 +39,17 @@
 
         <div class="row">
           <!-- Task Priority -->
-          <div class="col-2 d-flex flex-column mb-3">
+          {{! <div class="col-2 d-flex flex-column mb-3">
             <label for="members" class="form-label">Priority</label>
             <i class="fas fa-rocket" style="color: #ff0000;"></i>
 
-          </div>
+          </div> }}
 
           <!-- Task Status -->
           <div class="col-2 d-flex flex-column mb-3">
             <label for="members" class="form-label">Task Status</label>
             <!-- <i class="fa-solid fa-rocket" style="color: #ffb005;"></i> -->
-            <span class="badge text-bg-success">Completed</span>
+            <span id="statusId" class="badge text-bg-success">Completed</span>
 
             <!-- <div class="card bg-success text-white shadow">
                                     <div class="card-body">
@@ -62,19 +63,14 @@
           <!-- Task Members -->
           <div class="d-flex flex-column mr-4">
             <label for="members" class="form-label">Members</label>
-            <div id="members">
-              <!-- <img height="50px" width="50px" class="mx-1 img-profile rounded-circle" src="img/undraw_profile_3.svg"> -->
-              <img
-                height="50px"
-                width="50px"
-                class="mx-1 img-profile rounded-circle"
-                src="img/undraw_profile_2.svg"
-              />
+            <div id="members" class="d-flex flex-row">
+              <div class="modalAvatarIcons justify-content-end">
+              </div>
               <botton
-                class="text-lg btn btn-circle btn-secondary"
-                style="height: 50px; width: 50px;"
+                class="text-lg btn btn-circle btn-secondary mx-2"
+                style="height: 30px; width: 30px;"
               >
-                <i class="fa-solid fa-plus fa-xl" style="color: #fffdfd;"></i>
+                +
               </botton>
             </div>
           </div>
@@ -82,6 +78,7 @@
           <div class="d-flex flex-column">
             <label class="form-label">Deadline</label>
             <p
+              id="modalDeadlineText"
               class="text-success"
               style="line-height: 50px;"
             >15/December/2023</p>
@@ -96,7 +93,7 @@
           >Description</label>
           <textarea
             class="form-control"
-            id="exampleFormControlTextarea1"
+            id="modelDescriptionText"
             rows="3"
           ></textarea>
         </div>

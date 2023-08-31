@@ -27,7 +27,7 @@ const { Employee, EmployeeTask, Task, TaskStatus } = require("../models");
 //     res.render("main", {
 //       tasks,
 //       logged_in: req.session.logged_in,
-//     }, { layout: "layouts/main" }); 
+//     }, { layout: "layouts/main" });
 //   } catch (err) {
 //     res.status(500).json(err);
 //   }
@@ -81,7 +81,7 @@ router.get("/tasks", async (req, res) => {
     });
 
     const tasks = tasksData.map((task) => task.get({ plain: true }));
-
+    console.log(tasks);
     res.render("teamTaskBoard", {
       tasks,
       logged_in: req.session.logged_in,
@@ -113,7 +113,6 @@ router.get("/tasks/:id", async (req, res) => {
     res.status(500).json(err);
   }
 });
-
 
 // router.get("/employees/", async (req, res) => {
 //   try {
@@ -151,7 +150,9 @@ router.get("/employees/", async (req, res) => {
       return;
     }
 
-    const employees = employeesData.map((employee) => employee.get({ plain: true }));
+    const employees = employeesData.map((employee) =>
+      employee.get({ plain: true }),
+    );
 
     res.render("employees", {
       employees,
