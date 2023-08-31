@@ -142,11 +142,12 @@
 						<!-- Card Body -->
 						<div class='card-body' id='cardOpenTask'>
 							<!-- task one -->
-							{{> task-details}}
-							{{> task-details}}
-							{{> task-details}}
-							{{> task-details}}
-							{{> task-details}}
+
+							{{#each tasks as |task|}}
+								{{#if (compare task.taskStatus.id '===' 1)}}
+									{{> task-details}}
+								{{/if}}
+							{{/each}}
 						</div>
 					</div>
 				</div>
@@ -170,12 +171,11 @@
 						</div>
 						<!-- Card Body -->
 						<div class='card-body' id='cardInProgress'>
-							{{> task-details}}
-							{{> task-details}}
-							{{> task-details}}
-							{{> task-details}}
-							{{> task-details}}
-							{{> task-details}}
+							{{#each tasks as |task|}}
+								{{#if (compare task.taskStatus.id '===' 2)}}
+									{{> task-details}}
+								{{/if}}
+							{{/each}}
 						</div>
 					</div>
 				</div>
@@ -192,11 +192,11 @@
 						</div>
 						<!-- Card Body -->
 						<div class="card-body" id = "cardCompleted">
-							{{> task-details}}
-							{{> task-details}}
-							{{> task-details}}
-							{{> task-details}}
-							{{> task-details}}
+							{{#each tasks as |task|}}
+								{{#if (compare task.taskStatus.id '===' 3)}}
+									{{> task-details}}
+								{{/if}}
+							{{/each}}
 						</div>
 					</div>
 				</div>
@@ -209,7 +209,7 @@
 	<!-- End of Main Content -->
 
 	<!-- modael -->
-	<div
+	{{!-- <div
 		class='modal fade'
 		id='exampleModal'
 		tabindex='-1'
@@ -344,7 +344,9 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> --}}
+	
+	{{> task-modal-details}}
 
 	<!-- Footer -->
 	<footer class='sticky-footer bg-white'>
@@ -358,4 +360,144 @@
 
 </div>
 
+<script id="modal-template" type="text/x-handlebars-template">
+  <!-- Include the content of the modal template here -->
+  <div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-xl modal-dialog-scrollable"
+    style="height: 100hv;"
+  >
+    <div class="modal-content">
+      <div class="modal-header">
+        <!-- Task ID -->
+        <h5 class="modal-title fs-5" id="exampleModalLabel">Task ID: {{id}}</h5>
+
+        <button
+          class="close"
+          type="button"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Task Title -->
+        <!-- <div class="text-lg font-weight-bold text-primary text-uppercase mb-3" style="display:block;">
+                            Task Name Task Name Task Name Task Name Task Name Task Name Task Name
+                        </div> -->
+        <input
+          class="fs-4 form-control text-primary px-0"
+          type="text"
+          style="border: none;"
+          value={{task_name}}
+          aria-label="default input example"
+        />
+
+        <div class="row">
+          <!-- Task Priority -->
+          <div class="col-2 d-flex flex-column mb-3">
+            <label for="members" class="form-label">Priority</label>
+            <i class="fas fa-rocket" style="color: #ff0000;"></i>
+
+          </div>
+
+          <!-- Task Status -->
+          <div class="col-2 d-flex flex-column mb-3">
+            <label for="members" class="form-label">Task Status</label>
+            <!-- <i class="fa-solid fa-rocket" style="color: #ffb005;"></i> -->
+            <span class="badge text-bg-success">Completed</span>
+
+            <!-- <div class="card bg-success text-white shadow">
+                                    <div class="card-body">
+                                        Primary
+                                    </div>
+                                </div> -->
+          </div>
+        </div>
+
+        <div class="d-flex flex-row">
+          <!-- Task Members -->
+          <div class="d-flex flex-column mr-4">
+            <label for="members" class="form-label">Members</label>
+            <div id="members">
+              <!-- <img height="50px" width="50px" class="mx-1 img-profile rounded-circle" src="img/undraw_profile_3.svg"> -->
+              <img
+                height="50px"
+                width="50px"
+                class="mx-1 img-profile rounded-circle"
+                src="img/undraw_profile_2.svg"
+              />
+              <botton
+                class="text-lg btn btn-circle btn-secondary"
+                style="height: 50px; width: 50px;"
+              >
+                <i class="fa-solid fa-plus fa-xl" style="color: #fffdfd;"></i>
+              </botton>
+            </div>
+          </div>
+          <!-- Task Deadline -->
+          <div class="d-flex flex-column">
+            <label class="form-label">Deadline</label>
+            <p
+              class="text-success"
+              style="line-height: 50px;"
+            >15/December/2023</p>
+          </div>
+        </div>
+
+        <!-- Task Description -->
+        <div class="mb-3 my-3">
+          <label
+            for="exampleFormControlTextarea1"
+            class="form-label"
+          >Description</label>
+          <textarea
+            class="form-control"
+            id="exampleFormControlTextarea1"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <!-- Additional space filler, to be completed -->
+        <div class="card-body border border-2 my-3">
+          <p class="fw-bold">Activity</p>
+          <div class="text-center">
+            <img
+              class="img-fluid px-3 px-sm-4 mt-3 mb-4"
+              style="width: 25rem;"
+              src="img/undraw_posting_photo.svg"
+              alt="..."
+            />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-danger"
+          data-bs-dismiss="modal"
+        >Delete</button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >Close</button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+        >Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+</script>
 {{!-- <script src="./js/teamTaskBoard.js"></script> --}}
+<script src="./js/teamTaskBoard.js"></script>

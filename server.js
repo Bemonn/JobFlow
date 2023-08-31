@@ -13,7 +13,22 @@ const app = express();
 
 const PORT = 3000;
 
-const hbs = exphbs.create({}).engine;
+const hbs = exphbs.create({
+  helpers: {
+    compare: function (variableOne, comparator, variableTwo) {
+      if (eval(variableOne + comparator + variableTwo)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    formatDate: function (date) {
+      // Format the date to your desired format (e.g., "YYYY-MM-DD")
+      const formattedDate = date.toISOString().split("T")[0];
+      return formattedDate;
+    },
+  },
+}).engine;
 
 app.engine("handlebars", hbs);
 app.set("view engine", "handlebars");
@@ -46,7 +61,7 @@ app.use(routes);
 // app.use("/tasks", tasks);
 
 sequelize
-  .sync({ force: true })
+  .sync({ force: false })
   .then(() => {
     app.listen(PORT, () => {
       console.log(`Server is running on http://localhost:${PORT}`);
