@@ -12,7 +12,7 @@ const userRouter = require("./controllers/api/userRoutes");
 
 const app = express();
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3001;
 
 const hbs = exphbs.create({
   helpers: {
