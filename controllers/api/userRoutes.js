@@ -8,24 +8,57 @@ const { Employee } = require("../../models");
 
 router.post("/login", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    // Retrieving username and passwords
+    const { username, password } = req.body;
 
-    const employeeData = await Employee.findOne({ where: { email } });
+    // Find the specifi user 
+    const user = await Employee.findOne({
+      where: { username },
+    });
 
-    if (!employeeData || !employeeData.checkPassword(password)) {
-      res.status(400).json({ message: "Incorrect email or password!" });
-      return;
+    // if the user does not exist
+    if (!user) {
+      return res.status(400).json({ message: "Incorrect username or password!" });
     }
 
-    req.session.save(() => {
-      req.session.user_id = employeeData.id;
-      req.session.logged_in = true;
-      res.json({ employee: employeeData, message: "You are now logged in!" });
-    });
+    // Checking password keyed in against stored hashed password
+    const passwordMatch = await user.checkPassword(password);
+
+    //if the password does not match
+    if (!passwordMatch) {
+      return res.status(400).json({ message: "Incorrect username or password!" });
+    }
+
+    // All good on password and user, initiate user session
+    req.session.user_id = user.id;
+    req.session.logged_in = true;
+
+    res.status(200).json({ message: "You are now logged in!" });
   } catch (err) {
-    res.status(400).json(err);
+    res.status(500).json(err);
   }
 });
+
+// router.post("/login", async (req, res) => {
+//   try {
+//     const { username, password } = req.body;
+
+//     const employeeData = await Employee.findOne({ where: { username } });
+
+//     if (!employeeData || !employeeData.checkPassword(password)) {
+//       res.status(400).json({ message: "Incorrect username or password!" });
+//       return;
+//     }
+
+//     req.session.save(() => {
+//       req.session.user_id = employeeData.id;
+//       req.session.logged_in = true;
+//       res.json({ employee: employeeData, message: "You are now logged in!" });
+//     });
+//   } catch (err) {
+//     res.status(400).json(err);
+//   }
+// });
 
 // POST /api/user/logout
 

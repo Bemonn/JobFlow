@@ -32,7 +32,7 @@ Employee.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    // Column for employee's email with validation to ensure it's in email format
+    // Column for employee's username with validation to ensure it's in username format
     username: {
       type: DataTypes.STRING,
       allowNull: false,
