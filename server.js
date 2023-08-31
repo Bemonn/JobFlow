@@ -8,6 +8,7 @@ const exphbs = require("express-handlebars");
 const tasks = require("./controllers/api/tasksRoutes");
 const sequelize = require("./config/connection");
 const routes = require("./controllers");
+const routerr = require("./controllers/api/userRoutes");
 
 const app = express();
 
@@ -48,6 +49,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(routes);
+app.use("/api", routes);
+app.use("/api", routerr)
 
 // Basic server routes
 // app.get("/", (req, res) => {
