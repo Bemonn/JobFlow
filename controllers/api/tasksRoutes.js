@@ -1,37 +1,39 @@
 const express = require("express");
 
 const router = express.Router();
-const { Task } = require("../../models");
+const { Task, EmployeeTask, Employee } = require("../../models");
 
 // // Get information for all tasks
-// router.get("/tasks", async (req, res) => {
-//   try {
-//     const taskData = await Task.findAll();
-//     if (!taskData) {
-//       res.status(404).json({ message: "No tasks found!" });
-//       return;
-//     }
-//     res.status(200).json(taskData);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
+router.get("/", async (req, res) => {
+  try {
+    const taskData = await Task.findAll();
+    if (!taskData) {
+      res.status(404).json({ message: "No tasks found!" });
+      return;
+    }
+    res.status(200).json(taskData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
-// // Get information for one tasks
-// router.get("/tasks/:id", async (req, res) => {
-//   try {
-//     const taskData = await Task.findOne({
-//       where: { id: req.params.id },
-//     });
-//     if (!taskData) {
-//       res.status(404).json({ message: `No tasks found with this id: ${req.params.id}!` });
-//       return;
-//     }
-//     res.status(200).json(taskData);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
+// Get information for one tasks
+router.get("/:id", async (req, res) => {
+  try {
+    const taskData = await Task.findOne({
+      where: { id: req.params.id },
+    });
+    if (!taskData) {
+      res
+        .status(404)
+        .json({ message: `No tasks found with this id: ${req.params.id}!` });
+      return;
+    }
+    res.status(200).json(taskData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 // Create a task
 router.post("/", async (req, res) => {
@@ -40,9 +42,20 @@ router.post("/", async (req, res) => {
       task_name: req.body.task_name,
       description: req.body.description,
       deadline: req.body.deadline,
-      status: req.body.status,
+      status_id: req.body.status_id,
     });
-    res.status(201).json(taskData);
+
+    if (req.body.employeeIds.length) {
+      const taskEmployeeArr = req.body.employeeIds.map((employeeId) => {
+        return {
+          employee_id: employeeId.employee_id,
+          task_id: taskData.id,
+        };
+      });
+      res.status(200).json(await EmployeeTask.bulkCreate(taskEmployeeArr));
+    } else {
+      res.status(200).json(taskData);
+    }
   } catch (err) {
     res.status(500).json(err);
   }
@@ -103,7 +116,9 @@ router.delete("/:id", async (req, res) => {
       where: { id: req.params.id },
     });
     if (!taskData) {
-      res.status(404).json({ message: `No tasks found with this id: ${req.params.id}!` });
+      res
+        .status(404)
+        .json({ message: `No tasks found with this id: ${req.params.id}!` });
       return;
     }
     res.status(200).json(taskData);
