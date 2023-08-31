@@ -114,6 +114,48 @@ router.get("/tasks/:id", async (req, res) => {
   }
 });
 
+// Update a tasks status
+// (Uses the TaskStatus table to change the assigned id of task status in the Tasks table, insomnia PATCH http://localhost:3000/tasks/1/status)
+// JSON
+// {
+//  "status_name": "Completed"    (/models TaskStatus.js for other task statuses)
+// }
+router.patch("/tasks/:id/status", async (req, res) => {
+  try {
+    const statusData = await TaskStatus.findOne({
+      where: {
+        status_name: req.body.status_name,
+      },
+    });
+
+    if (!statusData) {
+      return res.status(404).json({ message: "Status not found!" });
+    }
+
+    const statusId = statusData.id;
+
+    // Update the task with the new status ID
+    const [numberOfAffectedRows] = await Task.update(
+      { status_id: statusId },
+      {
+        where: {
+          id: req.params.id,
+        },
+      },
+    );
+
+    if (numberOfAffectedRows === 0) {
+      return res.status(404).json({ message: "Task not found!" });
+    }
+
+    res.json({ message: "Task status updated successfully." });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error updating task status.", error: error.message });
+  }
+});
+
 // router.get("/employees/", async (req, res) => {
 //   try {
 //     // Find the logged in user based on the session ID

@@ -1,56 +1,28 @@
-// login handler
+// Login handler
 
-document
-  .getElementById("login-form")
-  .addEventListener("submit", async (event) => {
-    event.preventDefault();
+const loginForm = document.getElementById("login-form");
 
-    const form = document.getElementById("login-form");
-    const email = form.elements["email"].value;
-    const password = form.elements["password"].value;
+loginForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  // Test response
+  console.log("hello");
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
 
-    try {
-      const response = await fetch("/api/user/login", {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
-        headers: { "Content-Type": "application/json" },
-      });
+  if (username && password) {
+    const response = await fetch("/login", {
+      method: "POST",
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+      headers: { "Content-Type": "application/json" },
+    });
 
-      if (!response.ok) {
-        throw new Error("There was an error logging in.");
-      }
-
-      document.location.replace("/employees");
-    } catch (err) {
-      console.log(err);
+    if (response.ok) {
+      document.location.replace("/tasks");
+    } else {
+      alert("Failed to login");
     }
-  });
-// signup handler
-
-// Event listener for signup button
-document
-  .getElementById("signup-form")
-  .addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const form = document.getElementById("signup-form");
-    const username = form.elements["username"].value;
-    const password = form.elements["password"].value;
-    const confirmPassword = form.elements["confirm_password"].value;
-
-    try {
-      const response = await fetch("/api/user/signup", {
-        method: "POST",
-        body: JSON.stringify({ username, password, confirmPassword }),
-        headers: { "Content-Type": "application/json" },
-      });
-
-      if (!response.ok) {
-        throw new Error("There was an error signing up.");
-      }
-
-      document.location.replace("/employees");
-    } catch (err) {
-      console.log(err);
-    }
-  });
+  }
+});

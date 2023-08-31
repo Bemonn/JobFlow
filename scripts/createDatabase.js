@@ -1,10 +1,17 @@
-const { Sequelize } = require("sequelize");
-const config = require("../config/config");
+require("dotenv").config();
 
-const sequelize = new Sequelize("", config.username, config.password, {
-  host: config.host,
-  dialect: config.dialect,
-});
+const { Sequelize } = require("sequelize");
+const config = require("../config/connection");
+
+const sequelize = new Sequelize(
+  "",
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: "localhost",
+    dialect: "mysql",
+  },
+);
 
 (async () => {
   await sequelize.query("DROP DATABASE IF EXISTS jobflow;");

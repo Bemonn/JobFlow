@@ -3,7 +3,7 @@ const employeeData = [
   {
     first_name: "John",
     last_name: "Doe",
-    email: "john.doe@example.com",
+    username: "john.doe1",
     password: "password123", // This password should be hashed during creation in the model
     position: 1,
     profile_pic_link:
@@ -12,7 +12,7 @@ const employeeData = [
   {
     first_name: "Jane",
     last_name: "Smith",
-    email: "jane.smith@example.com",
+    username: "jane.smith1",
     password: "password456",
     position: 2,
     profile_pic_link:
@@ -21,7 +21,7 @@ const employeeData = [
   {
     first_name: "Michael",
     last_name: "Johnson",
-    email: "michael.johnson@example.com",
+    username: "michael.johnson1",
     password: "pass123",
     position: 1,
     profile_pic_link:
@@ -30,7 +30,7 @@ const employeeData = [
   {
     first_name: "Emily",
     last_name: "Williams",
-    email: "emily.williams@example.com",
+    username: "emily.williams1",
     password: "emilypass",
     position: 3,
     profile_pic_link:
@@ -39,7 +39,7 @@ const employeeData = [
   {
     first_name: "David",
     last_name: "Brown",
-    email: "david.brown@example.com",
+    username: "david.brown1",
     password: "dbrownpw",
     position: 2,
     profile_pic_link:
@@ -48,7 +48,7 @@ const employeeData = [
   {
     first_name: "Olivia",
     last_name: "Miller",
-    email: "olivia.miller@example.com",
+    username: "olivia.miller1",
     password: "olivia123",
     position: 1,
     profile_pic_link:
@@ -57,7 +57,7 @@ const employeeData = [
   {
     first_name: "Daniel",
     last_name: "Davis",
-    email: "daniel.davis@example.com",
+    username: "daniel.davis1",
     password: "davispw",
     position: 3,
     profile_pic_link:
@@ -66,7 +66,7 @@ const employeeData = [
   {
     first_name: "Sophia",
     last_name: "Martinez",
-    email: "sophia.martinez@example.com",
+    username: "sophia.martinez1",
     password: "sophiapass",
     position: 2,
     profile_pic_link:
