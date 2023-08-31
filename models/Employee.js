@@ -54,19 +54,13 @@ Employee.init(
   },
   {
     hooks: {
-      beforeCreate: async (newEmployeeData) => {
-        newEmployeeData.password = await bcrypt.hash(
-          newEmployeeData.password,
-          10,
-        );
-        return newEmployeeData;
+      beforeCreate: async (newUserData) => {
+        newUserData.password = await bcrypt.hash(newUserData.password, 10);
+        return newUserData;
       },
-      beforeUpdate: async (updatedEmployeeData) => {
-        updatedEmployeeData.password = await bcrypt.hash(
-          updatedEmployeeData.password,
-          10,
-        );
-        return updatedEmployeeData;
+      beforeUpdate: async (updatedUserData) => {
+        updatedUserData.password = await bcrypt.hash(updatedUserData.password, 10);
+        return updatedUserData;
       },
     },
     // Using the established database connection for this model

@@ -1,39 +1,41 @@
 // This handles the login information for the user
 
-const router = require("express").Router();
-const bcrypt = require("bcrypt");
+const router = require("express").Router(); 
 const { Employee } = require("../../models");
 
 // POST /api/user/login
 
 router.post("/login", async (req, res) => {
   try {
-    // Retrieving username and passwords
-    const { username, password } = req.body;
+    // retrieve
+    const userData = await Employee.findOne({ where: { username: req.body.username } });
 
-    // Find the specifi user 
-    const user = await Employee.findOne({
-      where: { username },
-    });
-
-    // if the user does not exist
-    if (!user) {
-      return res.status(400).json({ message: "Incorrect username or password!" });
+    // if the user does not exist 
+    if (!userData) {
+      res
+        .status(400)
+        .json({ message: "Incorrect email or password, please try again" });
+      return;
     }
 
     // Checking password keyed in against stored hashed password
-    const passwordMatch = await user.checkPassword(password);
+    const validPassword = await userData.checkPassword(req.body.password);
 
     //if the password does not match
-    if (!passwordMatch) {
-      return res.status(400).json({ message: "Incorrect username or password!" });
+    if (!validPassword) {
+      res
+        .status(400)
+        .json({ message: "Incorrect email or password, please try again" });
+      return;
     }
 
     // All good on password and user, initiate user session
-    req.session.user_id = user.id;
-    req.session.logged_in = true;
-
-    res.status(200).json({ message: "You are now logged in!" });
+      req.session.save(() => {
+      req.session.user_id = userData.id;
+      req.session.logged_in = true;
+      
+      res.json({ user: userData, message: "You are now logged in!" });
+    });
   } catch (err) {
     res.status(500).json(err);
   }
@@ -92,13 +94,12 @@ router.post("/signup", async (req, res) => {
       return;
     }
     // Hashing for password
-    const hashedPassword = await bcrypt.hash(password, 10);
 
     const newEmployee = await Employee.create({
       first_name,
       last_name,
       username,
-      password: hashedPassword,
+      password,
       position,
     });
     res.status(201).json({ message: "New User has been made" })
