@@ -33,13 +33,10 @@ Employee.init(
       allowNull: false,
     },
     // Column for employee's email with validation to ensure it's in email format
-    email: {
+    username: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      validate: {
-        isEmail: true,
-      },
     },
     // Column for employee's hashed password
     password: {
