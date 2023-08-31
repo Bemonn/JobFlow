@@ -1,14 +1,43 @@
 # JobFlow
 
-## How to use:
 
-- Log into mysql: mysql -u root -p
-- Open intergrated terminal
-- Generate database: node scripts/createDatabase.js
-<!-- - Generate tables for database: npx sequelize-cli db:migrate -->
-- Seed employee and tasks table: npx sequelize-cli db:seed:all
-- Run the server: node server.js
-- NOTE - if the tables need to be unseeded or reset use: npx sequelize-cli db:migrate:undo:all
+  ![GitHub](https://img.shields.io/badge/license-mit-blue)
 
-- node ./seeders/seed.js
-- node ./server.js
+## Description
+ JobFlow is a interactive fullstack application that allows the user to have a complete overview of employees and tasks
+
+## Table of Contents
+ - [Usage](#usage)
+ - [Video](#video)
+ - [Contributing](#contributing)
+ - [Credits](#credits)
+ - [License](#license)
+
+
+## Video
+  
+
+  
+## Usage
+
+
+  
+## Contributing
+ Refer to [credits](#credits) for contact info
+
+  
+## License
+ MIT
+
+## Credits
+
+ - Horace https://github.com/Ruihang2017 
+ - Nil https://github.com/njheymann  
+ - Raymond https://github.com/Raymond-XishengChen 
+ - Tristan https://github.com/Bemonn 
+ - Ying https://github.com/YJPuk 
+
+
+## Licence
+
+Please refer to the licence in the repo.
