@@ -37,12 +37,12 @@ const { Task } = require("../../models");
 router.post("/", async (req, res) => {
   try {
     const taskData = await Task.create({
-      task_name: req.task_name,
-      description: req.description,
-      deadline: req.deadline,
-      status: req.status,
+      task_name: req.body.task_name,
+      description: req.body.description,
+      deadline: req.body.deadline,
+      status: req.body.status,
     });
-    res.status(200).json(taskData);
+    res.status(201).json(taskData);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -61,15 +61,31 @@ router.post("/", async (req, res) => {
 // Update a task
 router.put("/:id", async (req, res) => {
   try {
-    const taskData = await Task.update(req.body, {
+    Task.update(req.body, {
       where: { id: req.params.id },
-    }).then((updatedTask) => {
-      res.json(updatedTask);
+    }).then((updatedRows) => {
+      if (updatedRows[0] === 0) {
+        res.status(404).json({ message: "No task found with this id!" });
+        return;
+      }
+
+      res.status(200).json({ message: "Task updated successfully!" });
     });
   } catch (err) {
     res.status(500).json(err);
   }
 });
+// router.put("/:id", async (req, res) => {
+//   try {
+//     const taskData = await Task.update(req.body, {
+//       where: { id: req.params.id },
+//     }).then((updatedTask) => {
+//       res.json(updatedTask);
+//     });
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 
 // // Update task
 // router.patch("/:id", async (req, res) => {
@@ -81,7 +97,7 @@ router.put("/:id", async (req, res) => {
 // });
 
 // Delete a task
-router.delete("/tasks/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const taskData = await Task.destroy({
       where: { id: req.params.id },
