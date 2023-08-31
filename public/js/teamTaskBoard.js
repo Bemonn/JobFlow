@@ -16,10 +16,11 @@ const cardCompletedSortable = new Sortable(cardCompleted, {
   ghostClass: "blue-background-class",
 });
 
-const cardGroupSortable = new Sortable(cardGroup, {
-  //   group: "sharedGroupTwo",
-  animation: 150,
-});
+// // group is not Sortable for now
+// const cardGroupSortable = new Sortable(cardGroup, {
+//   //   group: "sharedGroupTwo",
+//   animation: 150,
+// });
 
 //  modal
 const cardElements = document.querySelectorAll(".taskCard");
@@ -35,6 +36,8 @@ const modalAvatarIcons = document.querySelector(".modalAvatarIcons");
 // Onclick event listener to each card element
 cardElements.forEach((card) => {
   card.addEventListener("click", (event) => {
+    event.stopPropagation();
+
     // console.log(event.target);
     const taskCard = event.target.closest(".taskCard");
     const deadlineDiv = taskCard.querySelector(".deadlineDiv");
@@ -48,7 +51,8 @@ cardElements.forEach((card) => {
       modalIDLabel.innerHTML = `Task ID: ${taskId}`;
       modalNameInput.value = task_name;
       modelDescriptionText.value = description;
-      modalDeadlineText.innerHTML = deadlineDiv.textContent;
+      modalDeadlineText.value = deadlineDiv.textContent.trim();
+
       modalAvatarIcons.innerHTML = cardAvatarIcons.innerHTML;
       console.log(parseInt(status_id));
       // set the modal status
@@ -81,5 +85,23 @@ cardElements.forEach((card) => {
     } else {
       console.log("taskCard not found");
     }
+  });
+});
+
+const addCardBtns = document.querySelectorAll(".addCard");
+addCardBtns.forEach((addCardBtn) => {
+  addCardBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
+
+    modalIDLabel.innerHTML = "Task ID: AUTO Generated";
+    modalNameInput.value = "Enter a task name";
+    modelDescriptionText.value = "Enter task description";
+    modalDeadlineText.innerHTML = "-- / -- / ----";
+    modalAvatarIcons.innerHTML = "";
+    modalStatusId.innerHTML = "Open Task";
+    modalStatusId.classList.replace(
+      modalStatusId.classList[1],
+      "text-bg-primary",
+    );
   });
 });

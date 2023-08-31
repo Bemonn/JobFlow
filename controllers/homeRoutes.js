@@ -81,7 +81,6 @@ router.get("/tasks", async (req, res) => {
     });
 
     const tasks = tasksData.map((task) => task.get({ plain: true }));
-    console.log(tasks);
     res.render("teamTaskBoard", {
       tasks,
       logged_in: req.session.logged_in,

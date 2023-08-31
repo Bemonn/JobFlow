@@ -12,7 +12,8 @@ const userRouter = require("./controllers/api/userRoutes");
 
 const app = express();
 
-const PORT = process.env.PORT || 3001;
+// const PORT = process.env.PORT || 3001;
+const PORT = 3001;
 
 const hbs = exphbs.create({
   helpers: {
@@ -24,9 +25,9 @@ const hbs = exphbs.create({
       }
     },
     formatDate: function (date) {
-      // Format the date to your desired format (e.g., "YYYY-MM-DD")
-      const formattedDate = date.toISOString().split("T")[0];
-      return formattedDate;
+      // Format the date to format "DD-MM-YYYY"
+      const dateData = date.toISOString().split("T")[0].split("-");
+      return dateData[2] + "-" + dateData[1] + "-" + dateData[0];
     },
   },
 }).engine;
@@ -50,7 +51,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(routes);
 app.use("/api", routes);
-app.use("/api", userRouter)   
+app.use("/api", userRouter);
 
 // Basic server routes
 // app.get("/", (req, res) => {
