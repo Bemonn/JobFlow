@@ -1,5 +1,5 @@
 // Sample data for seeding the tasks table
-const statusData = [
+const taskStatusData = [
   {
     status_name: "Open Task",
   },
@@ -11,4 +11,4 @@ const statusData = [
   },
 ];
 
-module.exports = statusData;
+module.exports = taskStatusData;
