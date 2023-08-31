@@ -3,43 +3,60 @@ const { Employee, EmployeeTask, Task, TaskStatus } = require("../models");
 // const withAuth = require("../utils/auth");
 
 //Getting all Task
-router.get("/", async (req, res) => {
-  try {
-    // Get all Task and JOIN with user data
-    const tasksData = await Task.findAll({
-      include: [
-        // {
-        //   model: Employee,
-        //   attributes: ["first_name", "last_name"],
-        // },
-        {
-          model: TaskStatus,
-        },
-        { model: Employee, through: EmployeeTask, as: "task_employees" },
-      ],
-    });
+// router.get("/", async (req, res) => {
+//   try {
+//     // Get all Task and JOIN with user data
+//     const tasksData = await Task.findAll({
+//       include: [
+//         // {
+//         //   model: Employee,
+//         //   attributes: ["first_name", "last_name"],
+//         // },
+//         {
+//           model: TaskStatus,
+//         },
+//         { model: Employee, through: EmployeeTask, as: "task_employees" },
+//       ],
+//     });
 
-    // Serialize data so the template can read it
-    const tasks = tasksData.map((task) => task.get({ plain: true }));
-    // console.log(tasks[0]);
-    // Pass serialized data and session flag into template
-    res.render("teamTaskBoard", {
-      tasks,
-      logged_in: req.session.logged_in,
-    });
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+//     // Serialize data so the template can read it
+//     const tasks = tasksData.map((task) => task.get({ plain: true }));
+//     // console.log(tasks[0]);
+//     // Pass serialized data and session flag into template
+//     // Specify the layout template
+//     res.render("main", {
+//       tasks,
+//       logged_in: req.session.logged_in,
+//     }, { layout: "layouts/main" }); 
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 
 // router.get("/", async (req, res) => {
 //   try {
-//     res.render("teamTaskBoard");
+//     res.render("login");
 //   } catch (err) {
 //     console.log(err);
 //     res.status(500).json(err);
 //   }
 // });
+
+//Home page that goes straight to login
+router.get("/", async (req, res) => {
+  try {
+    // If the user is already logged in, redirect the request to another route
+    if (req.session.logged_in) {
+      res.redirect("/tasks");
+      return;
+    }
+
+    res.render("login");
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 // const getAllTasks = async (req, res) => {
 //   try {
 //     const tasks = await Task.findAll();
@@ -50,6 +67,29 @@ router.get("/", async (req, res) => {
 // };
 // router.route("/").get(getAllTasks).post(createTask);
 // router.route("/:id").get(getTask).patch(updateTask).delete(deleteTask);
+
+//All task
+router.get("/tasks", async (req, res) => {
+  try {
+    const tasksData = await Task.findAll({
+      include: [
+        {
+          model: TaskStatus,
+        },
+        { model: Employee, through: EmployeeTask, as: "task_employees" },
+      ],
+    });
+
+    const tasks = tasksData.map((task) => task.get({ plain: true }));
+
+    res.render("teamTaskBoard", {
+      tasks,
+      logged_in: req.session.logged_in,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 //Individual task
 router.get("/tasks/:id", async (req, res) => {
@@ -74,24 +114,48 @@ router.get("/tasks/:id", async (req, res) => {
   }
 });
 
+
+// router.get("/employees/", async (req, res) => {
+//   try {
+//     // Find the logged in user based on the session ID
+//     const employeeData = await Employee.findAll(req.session.user_id, {
+//       attributes: { exclude: ["password"] },
+//       include: [{ model: Employee }],
+//     });
+
+//     if (!employeeData) {
+//       res.status(404).json({ message: "No employee found with this id!" });
+//       return;
+//     }
+//     const employee = employeeData.get({ plain: true });
+
+//     res.render("employees", {
+//       ...employee,
+//       logged_in: true,
+//     });
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
+
 // Get information for all employees
 router.get("/employees/", async (req, res) => {
   try {
-    // Find the logged in user based on the session ID
-    const employeeData = await Employee.findAll(req.session.user_id, {
+    // Find all employees
+    const employeesData = await Employee.findAll({
       attributes: { exclude: ["password"] },
-      include: [{ model: Employee }],
     });
 
-    if (!employeeData) {
-      res.status(404).json({ message: "No employee found with this id!" });
+    if (!employeesData || employeesData.length === 0) {
+      res.status(404).json({ message: "No employees found!" });
       return;
     }
-    const employee = employeeData.get({ plain: true });
 
-    res.render("employee", {
-      ...employee,
-      logged_in: true,
+    const employees = employeesData.map((employee) => employee.get({ plain: true }));
+
+    res.render("employees", {
+      employees,
+      logged_in: req.session.logged_in,
     });
   } catch (err) {
     res.status(500).json(err);
@@ -127,21 +191,43 @@ router.get("/employees/", async (req, res) => {
 // WE NEED TO MAKE SINGLE EMPLOYEE PROFILE PAGE
 // Get information for one employee
 // Use withAuth middleware to prevent access to route
+// router.get("/employees/:id", async (req, res) => {
+//   try {
+//     // Find the logged in user based on the session ID
+//     const employeeData = await Employee.findByPk(req.session.user_id, {
+//       attributes: { exclude: ["password"] },
+//       include: [{ model: Employee }],
+//     });
+
+//     if (!employeeData) {
+//       res.status(404).json({ message: "No employee found with this id!" });
+//       return;
+//     }
+//     const employee = employeeData.get({ plain: true });
+
+//     res.render("employee", {
+//       ...employee,
+//       logged_in: true,
+//     });
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 router.get("/employees/:id", async (req, res) => {
   try {
     // Find the logged in user based on the session ID
-    const employeeData = await Employee.findByPk(req.session.user_id, {
+    const employeeData = await Employee.findByPk(req.params.id, {
       attributes: { exclude: ["password"] },
-      include: [{ model: Employee }],
     });
 
     if (!employeeData) {
       res.status(404).json({ message: "No employee found with this id!" });
       return;
     }
+
     const employee = employeeData.get({ plain: true });
 
-    res.render("employee", {
+    res.render("employees", {
       ...employee,
       logged_in: true,
     });
