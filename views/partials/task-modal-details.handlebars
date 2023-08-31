@@ -4,6 +4,8 @@
   tabindex="-1"
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
 >
   <div
     class="modal-dialog modal-xl modal-dialog-scrollable"
@@ -95,6 +97,7 @@
             class="form-control"
             id="modelDescriptionText"
             rows="3"
+            style="height: 40%;"
           ></textarea>
         </div>
 
@@ -117,11 +120,11 @@
           class="btn btn-danger"
           data-bs-dismiss="modal"
         >Delete</button>
-        <button
+        {{! <button
           type="button"
           class="btn btn-secondary"
           data-bs-dismiss="modal"
-        >Close</button>
+        >Close</button> }}
         <button
           type="button"
           class="btn btn-primary"

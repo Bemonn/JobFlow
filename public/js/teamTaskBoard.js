@@ -32,7 +32,7 @@ const modalDeadlineText = document.getElementById("modalDeadlineText");
 const modalStatusId = document.getElementById("statusId");
 const modalAvatarIcons = document.querySelector(".modalAvatarIcons");
 
-// Add a click event listener to each card element
+// Onclick event listener to each card element
 cardElements.forEach((card) => {
   card.addEventListener("click", (event) => {
     // console.log(event.target);
