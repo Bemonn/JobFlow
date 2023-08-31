@@ -74,8 +74,7 @@ router.put("/:id", async (req, res) => {
       {
         where: { id: req.params.id },
       },
-    )
-      .then((updatedEmployee) => {
+    ).then((updatedEmployee) => {
         res.json(updatedEmployee);
       });
   } catch (err) {
