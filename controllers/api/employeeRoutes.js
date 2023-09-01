@@ -66,7 +66,6 @@ router.delete("/:id", async (req, res) => {
 //Update an employee
 router.put("/:id", async (req, res) => {
   try {
-    // eslint-disable-next-line no-unused-vars
     const employeeData = await Employee.update(
       {
         profile_pic_link: req.body.url,
