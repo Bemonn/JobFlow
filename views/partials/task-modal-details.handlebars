@@ -113,14 +113,16 @@
               src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"
             ></script>
             <script>
-              $( function() { $( "#modalDeadlineText" ).datepicker(); } );
+              $( function() { $( "#modalDeadlineText" ).datepicker({
+                dateFormat: "dd/mm/yy",
+              }); } );
             </script>
             <input
               id="modalDeadlineText"
               class="text-success"
               type="text"
               style="line-height: 30px; border:none"
-              value="15/December/2023"
+              value="15/09/2023"
             />
 
           </div>
@@ -158,6 +160,7 @@
           type="button"
           class="btn btn-danger"
           data-bs-dismiss="modal"
+          id = "modalDeleteBtn"
         >Delete</button>
         {{! <button
           type="button"
@@ -168,6 +171,7 @@
           type="button"
           class="btn btn-primary"
           data-bs-dismiss="modal"
+          id = "modalSaveBtn"
         >Save changes</button>
       </div>
     </div>

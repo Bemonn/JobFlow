@@ -23,6 +23,8 @@ const cardCompletedSortable = new Sortable(cardCompleted, {
 // });
 
 //  modal
+const url = "http://localhost:3001/";
+
 const cardElements = document.querySelectorAll(".taskCard");
 const taskModel = document.getElementById("exampleModal");
 const modalIDLabel = document.getElementById("modalIDLabel");
@@ -34,19 +36,21 @@ const modalStatusBtnDropDown = document.getElementById("statusBtnDropDown");
 const modalStatusBtn = modalStatusBtnDropDown.querySelector("button");
 const modalStatusListItems =
   modalStatusBtnDropDown.querySelectorAll(".dropdown-item");
-
 const modalAvatarIcons = document.querySelector(".modalAvatarIcons");
 const dropdownAddEmployeeBtn = document.getElementById(
   "dropdownAddEmployeeBtn",
 );
 const modalDropdownMenu = document.getElementById("modalDropdownMenu");
+const modalSaveBtn = document.getElementById("modalSaveBtn");
+const modalDeleteBtn = document.getElementById("modalDeleteBtn");
 
 // global vars
-var dropDownEmployeesData;
-var modalTaskEmployees;
+var dropDownEmployeesData = [];
+var modalTaskEmployees = [];
 var modalStatusId;
 var modalTaskName;
 var modalDescription;
+var modalTaskId;
 
 // Onclick event listener to each card element
 cardElements.forEach((card) => {
@@ -58,37 +62,22 @@ cardElements.forEach((card) => {
     const deadlineDiv = taskCard.querySelector(".deadlineDiv");
     const cardAvatarIcons = taskCard.querySelector(".cardAvatarIcons");
     if (taskCard) {
-      const taskId = taskCard.getAttribute("data-task-id");
+      modalTaskId = taskCard.getAttribute("data-task-id");
       modalTaskName = taskCard.getAttribute("data-task-name");
       modalDescription = taskCard.getAttribute("data-task-description");
       modalStatusId = taskCard.getAttribute("data-status-id");
 
       // Get the task details
-      const urlTask = `http://localhost:3001/api/tasks/${taskId}`;
-      const taskData = await fetch(urlTask, {
-        method: "GET",
-      }).then((res) => res.json());
+      const taskData = await getTaskData(modalTaskId);
+
       // Get employeea details
-      const urlEmployees = "http://localhost:3001/api/employees/";
-      const employeesData = await fetch(urlEmployees, {
-        method: "GET",
-      }).then((res) => res.json());
+      const employeesData = await getEmployeesData();
 
       // set modal content
-      modalIDLabel.innerHTML = `Task ID: ${taskId}`;
+      modalIDLabel.innerHTML = `Task ID: ${modalTaskId}`;
       modalNameInput.value = modalTaskName;
       modelDescriptionText.value = modalDescription;
       modalDeadlineText.value = deadlineDiv.textContent.trim();
-
-      // modalNameInput input EventListener
-      modalNameInput.addEventListener("input", (event) => {
-        modalTaskName = modalNameInput.value;
-      });
-
-      // modalNameInput input EventListener
-      modelDescriptionText.addEventListener("input", (event) => {
-        modalDescription = modelDescriptionText.value;
-      });
 
       // load employee to task modal, add employee drop down
       modalDropdownMenu.innerHTML = "";
@@ -101,18 +90,93 @@ cardElements.forEach((card) => {
       modalTaskEmployees = taskData.task_employees;
       renderModalTaskEmployee();
       renderModalEmployeeDropdown();
-
-      modalStatusListItems.forEach((item) => {
-        item.addEventListener("click", (event) => {
-          modalStatusId = item.getAttribute("data-status-id");
-          setTheModalStatus();
-        });
-      });
       setTheModalStatus();
     } else {
       console.log("taskCard not found");
     }
   });
+});
+
+// modalSaveBtn EventListener
+modalSaveBtn.addEventListener("click", (event) => {
+  console.log("modalSaveBtn");
+  const thisUrl = url + "api/tasks/";
+
+  // Create the request headers
+  const headers = {
+    "Content-Type": "application/json",
+  };
+
+  const taskData = {
+    task_name: modalTaskName,
+    description: modalDescription,
+    deadline: modalDeadlineText.value,
+    status_id: modalStatusId,
+    employeeIds: modalTaskEmployees.map((employee) => {
+      return { employee_id: employee.id };
+    }),
+  };
+
+  console.log(taskData);
+  // Create the request options
+  const requestOptions = {
+    method: "POST",
+    headers: headers,
+    body: JSON.stringify(taskData),
+  };
+
+  // Send the POST request
+  fetch(thisUrl, requestOptions)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      // Handle the response data here if needed
+      console.log("POST request successful:", data);
+    })
+    .catch((error) => {
+      // Handle any errors that occurred during the fetch
+      console.error("Error:", error);
+    });
+});
+
+//getTaskData
+const getTaskData = async (modalTaskId) => {
+  const urlTask = url + `api/tasks/${modalTaskId}`;
+  return await fetch(urlTask, {
+    method: "GET",
+  }).then((res) => res.json());
+};
+
+const getEmployeesData = async () => {
+  const urlEmployees = url + "api/employees/";
+  return await fetch(urlEmployees, {
+    method: "GET",
+  }).then((res) => res.json());
+};
+
+modalDeleteBtn.addEventListener("click", (event) => {
+  console.log("modalDeleteBtn");
+});
+
+modalStatusListItems.forEach((item) => {
+  item.addEventListener("click", (event) => {
+    modalStatusId = item.getAttribute("data-status-id");
+    setTheModalStatus();
+  });
+});
+
+// modalNameInput input EventListener
+modalNameInput.addEventListener("input", (event) => {
+  modalTaskName = modalNameInput.value;
+});
+
+// modalNameInput input EventListener
+modelDescriptionText.addEventListener("input", (event) => {
+  modalDescription = modelDescriptionText.value;
 });
 
 // set the modal status
@@ -147,7 +211,7 @@ const setTheModalStatus = () => {
 // EventListener addCardBtns
 const addCardBtns = document.querySelectorAll(".addCard");
 addCardBtns.forEach((addCardBtn) => {
-  addCardBtn.addEventListener("click", (event) => {
+  addCardBtn.addEventListener("click", async (event) => {
     event.stopPropagation();
 
     modalIDLabel.innerHTML = "Task ID: AUTO Generated";
@@ -160,6 +224,11 @@ addCardBtns.forEach((addCardBtn) => {
       modalStatusBtn.classList[1],
       "btn-primary",
     );
+    console.log("asdfsadfa");
+    dropDownEmployeesData = [];
+    modalTaskEmployees = [];
+    dropDownEmployeesData = await getEmployeesData();
+    renderModalEmployeeDropdown(dropDownEmployeesData);
   });
 });
 
