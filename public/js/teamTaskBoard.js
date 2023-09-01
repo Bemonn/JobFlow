@@ -30,7 +30,11 @@ const modalDeadLine = document.getElementById("data-dead-line");
 const modalNameInput = document.getElementById("modalNameInput");
 const modelDescriptionText = document.getElementById("modelDescriptionText");
 const modalDeadlineText = document.getElementById("modalDeadlineText");
-const modalStatusId = document.getElementById("statusId");
+const modalStatusBtnDropDown = document.getElementById("statusBtnDropDown");
+const modalStatusBtn = modalStatusBtnDropDown.querySelector("button");
+const modalStatusListItems =
+  modalStatusBtnDropDown.querySelectorAll(".dropdown-item");
+
 const modalAvatarIcons = document.querySelector(".modalAvatarIcons");
 const dropdownAddEmployeeBtn = document.getElementById(
   "dropdownAddEmployeeBtn",
@@ -40,7 +44,7 @@ const modalDropdownMenu = document.getElementById("modalDropdownMenu");
 // global vars
 var dropDownEmployeesData;
 var modalTaskEmployees;
-
+var modalStatusId;
 // Onclick event listener to each card element
 cardElements.forEach((card) => {
   card.addEventListener("click", async (event) => {
@@ -54,7 +58,7 @@ cardElements.forEach((card) => {
       const taskId = taskCard.getAttribute("data-task-id");
       const task_name = taskCard.getAttribute("data-task-name");
       const description = taskCard.getAttribute("data-task-description");
-      const status_id = taskCard.getAttribute("data-status-id");
+      modalStatusId = taskCard.getAttribute("data-status-id");
 
       // Get the task details
       const urlTask = `http://localhost:3001/api/tasks/${taskId}`;
@@ -85,38 +89,47 @@ cardElements.forEach((card) => {
       renderModalTaskEmployee();
       renderModalEmployeeDropdown();
 
-      // set the modal status
-      switch (parseInt(status_id)) {
-        case 1:
-          modalStatusId.innerHTML = "Open Task";
-          // const className = modalStatusId.classList[1];
-          modalStatusId.classList.replace(
-            modalStatusId.classList[1],
-            "text-bg-primary",
-          );
-          break;
-        case 2:
-          modalStatusId.innerHTML = "In Progress";
-          modalStatusId.classList.replace(
-            modalStatusId.classList[1],
-            "text-bg-warning",
-          );
-          break;
-        case 3:
-          modalStatusId.innerHTML = "Completed";
-          modalStatusId.classList.replace(
-            modalStatusId.classList[1],
-            "text-bg-success",
-          );
-          break;
-        default:
-          break;
-      }
+      modalStatusListItems.forEach((item) => {
+        item.addEventListener("click", (event) => {
+          modalStatusId = item.getAttribute("data-status-id");
+          setTheModalStatus();
+        });
+      });
+      setTheModalStatus();
     } else {
       console.log("taskCard not found");
     }
   });
 });
+
+// set the modal status
+const setTheModalStatus = () => {
+  switch (parseInt(modalStatusId)) {
+    case 1:
+      modalStatusBtn.innerHTML = "Open Task";
+      modalStatusBtn.classList.replace(
+        modalStatusBtn.classList[1],
+        "btn-primary",
+      );
+      break;
+    case 2:
+      modalStatusBtn.innerHTML = "In Progress";
+      modalStatusBtn.classList.replace(
+        modalStatusBtn.classList[1],
+        "btn-warning",
+      );
+      break;
+    case 3:
+      modalStatusBtn.innerHTML = "Completed";
+      modalStatusBtn.classList.replace(
+        modalStatusBtn.classList[1],
+        "btn-success",
+      );
+      break;
+    default:
+      break;
+  }
+};
 
 // EventListener addCardBtns
 const addCardBtns = document.querySelectorAll(".addCard");
@@ -129,10 +142,10 @@ addCardBtns.forEach((addCardBtn) => {
     modelDescriptionText.value = "Enter task description";
     modalDeadlineText.innerHTML = "-- / -- / ----";
     modalAvatarIcons.innerHTML = "";
-    modalStatusId.innerHTML = "Open Task";
-    modalStatusId.classList.replace(
-      modalStatusId.classList[1],
-      "text-bg-primary",
+    modalStatusBtn.innerHTML = "Open Task";
+    modalStatusBtn.classList.replace(
+      modalStatusBtn.classList[1],
+      "btn-primary",
     );
   });
 });

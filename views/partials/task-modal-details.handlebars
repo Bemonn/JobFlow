@@ -50,9 +50,16 @@
           <!-- Task Status -->
           <div class="col-2 d-flex flex-column mb-3">
             <label for="members" class="form-label">Task Status</label>
-            <!-- <i class="fa-solid fa-rocket" style="color: #ffb005;"></i> -->
-            <span id="statusId" class="badge text-bg-success">Completed</span>
-
+            <div class="btn-group" id="statusBtnDropDown" >
+              <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Open Task
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" data-status-id=1>Open Task</a></li>
+                <li><a class="dropdown-item" data-status-id=2>In Progress</a></li>
+                <li><a class="dropdown-item" data-status-id=3>Completed</a></li>
+              </ul>
+            </div>
             <!-- <div class="card bg-success text-white shadow">
                                     <div class="card-body">
                                         Primary
