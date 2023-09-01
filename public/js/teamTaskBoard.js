@@ -45,6 +45,9 @@ const modalDropdownMenu = document.getElementById("modalDropdownMenu");
 var dropDownEmployeesData;
 var modalTaskEmployees;
 var modalStatusId;
+var modalTaskName;
+var modalDescription;
+
 // Onclick event listener to each card element
 cardElements.forEach((card) => {
   card.addEventListener("click", async (event) => {
@@ -56,8 +59,8 @@ cardElements.forEach((card) => {
     const cardAvatarIcons = taskCard.querySelector(".cardAvatarIcons");
     if (taskCard) {
       const taskId = taskCard.getAttribute("data-task-id");
-      const task_name = taskCard.getAttribute("data-task-name");
-      const description = taskCard.getAttribute("data-task-description");
+      modalTaskName = taskCard.getAttribute("data-task-name");
+      modalDescription = taskCard.getAttribute("data-task-description");
       modalStatusId = taskCard.getAttribute("data-status-id");
 
       // Get the task details
@@ -73,9 +76,19 @@ cardElements.forEach((card) => {
 
       // set modal content
       modalIDLabel.innerHTML = `Task ID: ${taskId}`;
-      modalNameInput.value = task_name;
-      modelDescriptionText.value = description;
+      modalNameInput.value = modalTaskName;
+      modelDescriptionText.value = modalDescription;
       modalDeadlineText.value = deadlineDiv.textContent.trim();
+
+      // modalNameInput input EventListener
+      modalNameInput.addEventListener("input", (event) => {
+        modalTaskName = modalNameInput.value;
+      });
+
+      // modalNameInput input EventListener
+      modelDescriptionText.addEventListener("input", (event) => {
+        modalDescription = modelDescriptionText.value;
+      });
 
       // load employee to task modal, add employee drop down
       modalDropdownMenu.innerHTML = "";
