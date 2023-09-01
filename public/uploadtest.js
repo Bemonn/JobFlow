@@ -96,3 +96,14 @@ const uploadImage = () => {
     },
   );
 };
+
+// Update employee's profile picture link with ID
+// Using fetch call and PUT method
+function updateProfileUrl(url) {
+  const request = {
+    method: "PUT",
+    body: JSON.stringify({ 'url':url }),
+    HEADERS: { "Content-Type": "application/json; charset=utf-8"},
+  }
+  fetch("/api/Employees/4", request);
+}

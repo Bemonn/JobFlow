@@ -300,4 +300,9 @@ router.get("/signup", (req, res) => {
   res.render("signup");
 });
 
+//upload page
+router.get("/upload", (req, res) => {
+  res.render("upload");
+});
+
 module.exports = router;
