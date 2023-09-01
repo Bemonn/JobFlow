@@ -32,10 +32,14 @@ const modelDescriptionText = document.getElementById("modelDescriptionText");
 const modalDeadlineText = document.getElementById("modalDeadlineText");
 const modalStatusId = document.getElementById("statusId");
 const modalAvatarIcons = document.querySelector(".modalAvatarIcons");
+const dropdownAddEmployeeBtn = document.getElementById(
+  "dropdownAddEmployeeBtn",
+);
+const modalDropdownMenu = document.getElementById("modalDropdownMenu");
 
 // Onclick event listener to each card element
 cardElements.forEach((card) => {
-  card.addEventListener("click", (event) => {
+  card.addEventListener("click", async (event) => {
     event.stopPropagation();
 
     // console.log(event.target);
@@ -48,13 +52,39 @@ cardElements.forEach((card) => {
       const description = taskCard.getAttribute("data-task-description");
       const status_id = taskCard.getAttribute("data-status-id");
 
+      // Get the task details
+      const urlTask = `http://localhost:3001/api/tasks/${taskId}`;
+      const taskData = await fetch(urlTask, {
+        method: "GET",
+      }).then((res) => res.json());
+      // Get employeea details
+      const urlEmployees = "http://localhost:3001/api/employees/";
+      const employeesData = await fetch(urlEmployees, {
+        method: "GET",
+      }).then((res) => res.json());
+
+      // set modal content
       modalIDLabel.innerHTML = `Task ID: ${taskId}`;
       modalNameInput.value = task_name;
       modelDescriptionText.value = description;
       modalDeadlineText.value = deadlineDiv.textContent.trim();
 
-      modalAvatarIcons.innerHTML = cardAvatarIcons.innerHTML;
-      console.log(parseInt(status_id));
+      // load current task_employees to task modal
+      renderModalTaskEmployee(taskData.task_employees);
+
+      // load employee to task modal, add employee drop down
+      modalDropdownMenu.innerHTML = "";
+      var filteredEmployeesData = employeesData.filter(
+        (employeeData) =>
+          !taskData.task_employees.some(
+            (task_employee) => task_employee.id === employeeData.id,
+          ),
+      );
+      renderModalEmployeeDropdown(
+        taskData.task_employees,
+        filteredEmployeesData,
+      );
+
       // set the modal status
       switch (parseInt(status_id)) {
         case 1:
@@ -88,6 +118,7 @@ cardElements.forEach((card) => {
   });
 });
 
+// EventListener addCardBtns
 const addCardBtns = document.querySelectorAll(".addCard");
 addCardBtns.forEach((addCardBtn) => {
   addCardBtn.addEventListener("click", (event) => {
@@ -105,3 +136,74 @@ addCardBtns.forEach((addCardBtn) => {
     );
   });
 });
+
+dropdownAddEmployeeBtn.addEventListener("click", (event) => {
+  event.stopPropagation();
+});
+
+// Event listener, modalEmployeeDropdownOnClick
+const modalEmployeeDropdownOnClick = (
+  task_employees,
+  filteredEmployeesData,
+  filteredEmployeeData,
+  event,
+) => {
+  // add employee to the task_employees list
+  task_employees.push(filteredEmployeeData);
+  renderModalTaskEmployee(task_employees);
+  console.log("123");
+  // remove the employee from filteredEmployeesData
+  filteredEmployeesData = filteredEmployeesData.filter(
+    (data) => data.id !== filteredEmployeeData.id,
+  );
+  console.log(filteredEmployeesData);
+
+  renderModalEmployeeDropdown(task_employees, filteredEmployeesData);
+};
+
+// load current task_employees to task modal
+const renderModalTaskEmployee = (task_employees) => {
+  modalAvatarIcons.innerHTML = "";
+  task_employees.forEach((task_employee) => {
+    modalAvatarIcons.innerHTML += `
+    <img
+      height="30px"
+      width="30px"
+      class="mx-1 img-profile rounded-circle"
+      src=${task_employee.profile_pic_link}
+    />`;
+  });
+};
+
+// load current task_employees to task modal
+const renderModalEmployeeDropdown = (task_employees, filteredEmployeesData) => {
+  modalDropdownMenu.innerHTML = "";
+  filteredEmployeesData.forEach((filteredEmployeeData) => {
+    const newListItem = document.createElement("li");
+    newListItem.innerHTML = `
+    <li 
+      data-employee-id = ${filteredEmployeeData.id}>
+      <div class="dropdown-item" href="#">
+        <img
+          height="30px"
+          width="30px"
+          class="mr-2 img-profile rounded-circle d-inline"
+          src="${filteredEmployeeData.profile_pic_link}"
+        />
+        <div class="d-inline ml-2">${filteredEmployeeData.first_name} ${filteredEmployeeData.last_name}</div>
+      </div>
+    </li>`;
+
+    newListItem.addEventListener(
+      "click",
+      modalEmployeeDropdownOnClick.bind(
+        null,
+        task_employees,
+        filteredEmployeesData,
+        filteredEmployeeData,
+      ),
+    );
+
+    modalDropdownMenu.appendChild(newListItem);
+  });
+};

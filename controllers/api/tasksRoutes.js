@@ -1,17 +1,27 @@
 const express = require("express");
 
 const router = express.Router();
-const { Task, EmployeeTask, Employee } = require("../../models");
+const { Task, EmployeeTask, Employee, TaskStatus } = require("../../models");
 
 // // Get information for all tasks
 router.get("/", async (req, res) => {
   try {
-    const taskData = await Task.findAll();
-    if (!taskData) {
+    const tasksData = await Task.findAll({
+      include: [
+        {
+          model: TaskStatus,
+        },
+        { model: Employee, through: EmployeeTask, as: "task_employees" },
+      ],
+    });
+    if (!tasksData) {
       res.status(404).json({ message: "No tasks found!" });
       return;
     }
-    res.status(200).json(taskData);
+
+    // const tasks = tasksData.map((task) => task.get({ plain: true }));
+
+    res.status(200).json(tasksData);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -22,6 +32,12 @@ router.get("/:id", async (req, res) => {
   try {
     const taskData = await Task.findOne({
       where: { id: req.params.id },
+      include: [
+        {
+          model: TaskStatus,
+        },
+        { model: Employee, through: EmployeeTask, as: "task_employees" },
+      ],
     });
     if (!taskData) {
       res
@@ -29,6 +45,7 @@ router.get("/:id", async (req, res) => {
         .json({ message: `No tasks found with this id: ${req.params.id}!` });
       return;
     }
+
     res.status(200).json(taskData);
   } catch (err) {
     res.status(500).json(err);
