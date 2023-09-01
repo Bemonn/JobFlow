@@ -91,16 +91,35 @@ router.post("/", async (req, res) => {
 // Update a task
 router.put("/:id", async (req, res) => {
   try {
-    Task.update(req.body, {
+    const updatedRows = await Task.update(req.body, {
       where: { id: req.params.id },
-    }).then((updatedRows) => {
-      if (updatedRows[0] === 0) {
-        res.status(404).json({ message: "No task found with this id!" });
-        return;
-      }
-
-      res.status(200).json({ message: "Task updated successfully!" });
     });
+    if (updatedRows[0] === 0) {
+      res.status(404).json({ message: "No task found with this id!" });
+      return;
+    }
+
+    if (req.body.employeeIds.length) {
+      const newTaskEmployeeArr = req.body.employeeIds.map((employeeId) => {
+        return {
+          employee_id: employeeId.employee_id,
+          task_id: req.params.id,
+        };
+      });
+
+      const taskEmployees = await EmployeeTask.findAll({
+        where: { task_id: req.params.id },
+      });
+      const taskEmployeesID = taskEmployees.map(
+        (employee_task) => employee_task.id,
+      );
+
+      await EmployeeTask.destroy({ where: { id: taskEmployeesID } });
+
+      res.status(200).json(await EmployeeTask.bulkCreate(newTaskEmployeeArr));
+    } else {
+      res.status(200).json({ message: "Task updated successfully!" });
+    }
   } catch (err) {
     res.status(500).json(err);
   }

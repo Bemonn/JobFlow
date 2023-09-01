@@ -110,7 +110,7 @@ modalSaveBtn.addEventListener("click", (event) => {
   const taskData = {
     task_name: modalTaskName,
     description: modalDescription,
-    deadline: modalDeadlineText.value,
+    deadline: convertDateFormat(modalDeadlineText.value),
     status_id: modalStatusId,
     employeeIds: modalTaskEmployees.map((employee) => {
       return { employee_id: employee.id };
@@ -151,6 +151,7 @@ const getTaskData = async (modalTaskId) => {
   }).then((res) => res.json());
 };
 
+// getEmployeesData
 const getEmployeesData = async () => {
   const urlEmployees = url + "api/employees/";
   return await fetch(urlEmployees, {
@@ -158,10 +159,12 @@ const getEmployeesData = async () => {
   }).then((res) => res.json());
 };
 
+// addEventListener
 modalDeleteBtn.addEventListener("click", (event) => {
   console.log("modalDeleteBtn");
 });
 
+// ---
 modalStatusListItems.forEach((item) => {
   item.addEventListener("click", (event) => {
     modalStatusId = item.getAttribute("data-status-id");
@@ -304,4 +307,23 @@ const renderModalEmployeeDropdown = () => {
 
     modalDropdownMenu.appendChild(newListItem);
   });
+};
+
+// convert the date to correct format for DB
+const convertDateFormat = (inputDate) => {
+  // Split the input date string by "/"
+  const parts = inputDate.split("/");
+
+  // Ensure there are three parts (day, month, and year)
+  if (parts.length !== 3) {
+    return null; // Invalid date format
+  }
+
+  // Rearrange the parts to "yyyy-mm-dd" format
+  const yyyy = parts[2];
+  const mm = parts[1].padStart(2, "0"); // Ensure double-digit month
+  const dd = parts[0].padStart(2, "0"); // Ensure double-digit day
+
+  // Combine the parts into the desired format
+  return `${yyyy}-${mm}-${dd}`;
 };
