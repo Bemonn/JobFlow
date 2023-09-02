@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Firebase Image Upload</title>
+
+    <!-- Link to firebase-app and cloud firebase-storage -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+  </head>
+  <body>
+
+    <!-- Section for uploading profile image -->
+    <div class="imageUpload">
+
+      <!-- Create section for the image -->
+      <!-- Display the photo after uploading -->
+      <img class="img" src="./Assets/placeholder-image.png" 
+        style="width:500px; height:500px; display:block; border-radius:50%" />
+
+      <!-- Hide request text after uploading -->
+      <p class="request-profile">Please select and upload a profile picture</p>
+
+      <!-- Create an input button for user to choose a picture to upload -->
+      <input type="file" class="input-img" onchange="getImageData(event)" />
+      <span class="filedata"></span>
+
+      <!-- Show progress of uploading status -->
+      <div class="progressBar">
+        <div class="progress"></div>
+      </div>
+
+      <!-- button for confirming upload -->
+      <button onclick="uploadImage()" class="upload">Upload</button>
+      <span class="loading">Loading...</span>
+      
+    </div>
+
+    <!-- Link to the js functions for uploading images -->
+    <script src="./uploadtest.js">
+    </script>
+  </body>
+</html>
