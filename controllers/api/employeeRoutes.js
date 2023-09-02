@@ -5,14 +5,14 @@ const { Employee } = require("../../models");
 
 // // get information for all employees
 
-// router.get("/", async (req, res) => {
-//   try {
-//     const employeeData = await Employee.findAll({});
-//     res.status(200).json(employeeData);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
+router.get("/", async (req, res) => {
+  try {
+    const employeeData = await Employee.findAll({});
+    res.status(200).json(employeeData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 // // get information for one employee
 
@@ -74,8 +74,8 @@ router.put("/:id", async (req, res) => {
         where: { id: req.params.id },
       },
     ).then((updatedEmployee) => {
-        res.json(updatedEmployee);
-      });
+      res.json(updatedEmployee);
+    });
   } catch (err) {
     res.status(500).json(err);
   }

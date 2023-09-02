@@ -50,9 +50,16 @@
           <!-- Task Status -->
           <div class="col-2 d-flex flex-column mb-3">
             <label for="members" class="form-label">Task Status</label>
-            <!-- <i class="fa-solid fa-rocket" style="color: #ffb005;"></i> -->
-            <span id="statusId" class="badge text-bg-success">Completed</span>
-
+            <div class="btn-group" id="statusBtnDropDown" >
+              <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Open Task
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" data-status-id=1>Open Task</a></li>
+                <li><a class="dropdown-item" data-status-id=2>In Progress</a></li>
+                <li><a class="dropdown-item" data-status-id=3>Completed</a></li>
+              </ul>
+            </div>
             <!-- <div class="card bg-success text-white shadow">
                                     <div class="card-body">
                                         Primary
@@ -65,26 +72,57 @@
           <!-- Task Members -->
           <div class="d-flex flex-column mr-4">
             <label for="members" class="form-label">Members</label>
+
             <div id="members" class="d-flex flex-row">
               <div class="modalAvatarIcons justify-content-end">
               </div>
-              <botton
-                class="text-lg btn btn-circle btn-secondary mx-2"
-                style="height: 30px; width: 30px;"
-              >
+              <div class="dropdown">
+
+                <botton
+                  class="text-lg btn btn-circle btn-secondary mx-2 "
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  style="height: 30px; width: 30px;"
+                  id="dropdownAddEmployeeBtn"
+                >
                 +
-              </botton>
+                </button>
+                <ul class="dropdown-menu" id ="modalDropdownMenu">
+                  <li>
+                    <div class="dropdown-item" href="#">
+                      <img
+                        height="30px"
+                        width="30px"
+                        class="mr-2 img-profile rounded-circle d-inline"
+                        src="https://avatars.dicebear.com/v2/avataaars/9c81cf6eac2c91263caab33d2bc4ec38.svg"
+                      />
+                      <div class="d-inline ml-2">Name</div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
           <!-- Task Deadline -->
           <div class="d-flex flex-column">
             <label class="form-label">Deadline</label>
+
+            <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+            <script
+              src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"
+            ></script>
+            <script>
+              $( function() { $( "#modalDeadlineText" ).datepicker({
+                dateFormat: "dd/mm/yy",
+              }); } );
+            </script>
             <input
               id="modalDeadlineText"
               class="text-success"
               type="text"
               style="line-height: 30px; border:none"
-              value="15/December/2023"
+              value="15/09/2023"
             />
 
           </div>
@@ -122,6 +160,7 @@
           type="button"
           class="btn btn-danger"
           data-bs-dismiss="modal"
+          id = "modalDeleteBtn"
         >Delete</button>
         {{! <button
           type="button"
@@ -132,6 +171,7 @@
           type="button"
           class="btn btn-primary"
           data-bs-dismiss="modal"
+          id = "modalSaveBtn"
         >Save changes</button>
       </div>
     </div>
