@@ -1,12 +1,14 @@
 const express = require("express");
 
 const router = express.Router();
-const { Employee } = require("../models");
+const { EmployeeTask, Task, TaskStatus, Employee } = require("../models");
 const withAuth = require("../utils/auth");
 
 // Make an employee
 router.post("/", withAuth, async (req, res) => {
   try {
+    console.log(11);
+
     const employeeData = await Employee.create(req.body);
 
     req.session.save(() => {

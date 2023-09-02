@@ -36,7 +36,11 @@
               height="30px"
               width="30px"
               class="mx-1 img-profile rounded-circle"
-              src={{task_employee.profile_pic_link}}
+              {{#if task_employee.profile_pic_link}} 
+                src={{task_employee.profile_pic_link}}
+              {{else}}
+                src="../img/undraw_profile_1.svg"
+              {{/if}}
             />
           {{/each}}
         </div>

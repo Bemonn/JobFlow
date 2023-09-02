@@ -2,7 +2,6 @@ const router = require("express").Router();
 const { Employee, EmployeeTask, Task, TaskStatus } = require("../models");
 const withAuth = require("../utils/auth");
 
-
 //Home page that goes straight to login
 router.get("/", withAuth, async (req, res) => {
   try {
@@ -56,27 +55,27 @@ router.get("/tasks", withAuth, async (req, res) => {
 // });
 
 // Individual task
-router.get("/tasks/:id", withAuth, async (req, res) => {
-  try {
-    const tasksData = await Task.findByPk(req.params.id, {
-      include: [
-        {
-          model: TaskStatus,
-        },
-        { model: Employee, through: EmployeeTask, as: "task_employees" },
-      ],
-    });
+// router.get("/tasks/:id", withAuth, async (req, res) => {
+//   try {
+//     const tasksData = await Task.findByPk(req.params.id, {
+//       include: [
+//         {
+//           model: TaskStatus,
+//         },
+//         { model: Employee, through: EmployeeTask, as: "task_employees" },
+//       ],
+//     });
 
-    const task = tasksData.get({ plain: true });
+//     const task = tasksData.get({ plain: true });
 
-    res.render("teamTaskBoard", {
-      ...task,
-      logged_in: req.session.logged_in,
-    });
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+//     res.render("teamTaskBoard", {
+//       ...task,
+//       logged_in: req.session.logged_in,
+//     });
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 // router.get("/tasks/:id", async (req, res) => {
 //   try {
 //     const taskData = await Task.findOne({
@@ -108,7 +107,6 @@ router.get("/employees", withAuth, async (req, res) => {
     const employeesData = await Employee.findAll({
       attributes: { exclude: ["password"] },
     });
-
     if (!employeesData || employeesData.length === 0) {
       res.status(404).json({ message: "No employees found!" });
       return;
@@ -127,6 +125,53 @@ router.get("/employees", withAuth, async (req, res) => {
   }
 });
 
+// get employees
+router.get("/api/employees", withAuth, async (req, res) => {
+  try {
+    // Find all employees
+
+    const employeesData = await Employee.findAll({
+      attributes: { exclude: ["password"] },
+    });
+
+    const employees = employeesData.map((employee) =>
+      employee.get({ plain: true }),
+    );
+    res.status(200).json(employeesData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// // Get information for all employees
+// router.get("/api/employees", withAuth, async (req, res) => {
+//   try {
+//     // Find all employees
+//     console.log(111);
+
+//     const employeesData = await Employee.findAll({
+//       attributes: { exclude: ["password"] },
+//     });
+//     console.log(222);
+
+//     if (!employeesData || employeesData.length === 0) {
+//       res.status(404).json({ message: "No employees found!" });
+//       return;
+//     }
+//     console.log(333);
+
+//     const employees = employeesData.map((employee) =>
+//       employee.get({ plain: true }),
+//     );
+//     // console.log(employees);
+//     console.log(employeesData);
+
+//     res.status(200).json(employeesData);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
+
 // Get information for one employee
 router.get("/employees/:id", withAuth, async (req, res) => {
   try {
@@ -136,6 +181,8 @@ router.get("/employees/:id", withAuth, async (req, res) => {
     });
 
     if (!employeeData) {
+      console.log("4033");
+
       res.status(404).json({ message: "No employee found with this id!" });
       return;
     }
