@@ -43,19 +43,19 @@ const { Employee, EmployeeTask, Task, TaskStatus } = require("../models");
 // });
 
 //Home page that goes straight to login
-router.get("/", async (req, res) => {
-  try {
-    // If the user is already logged in, redirect the request to another route
-    if (req.session.logged_in) {
-      res.redirect("/tasks");
-      return;
-    }
+// router.get("/", async (req, res) => {
+//   try {
+//     // If the user is already logged in, redirect the request to another route
+//     if (req.session.logged_in) {
+//       res.redirect("/tasks");
+//       return;
+//     }
 
-    res.render("login");
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+//     res.render("login");
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 
 // const getAllTasks = async (req, res) => {
 //   try {
@@ -68,8 +68,8 @@ router.get("/", async (req, res) => {
 // router.route("/").get(getAllTasks).post(createTask);
 // router.route("/:id").get(getTask).patch(updateTask).delete(deleteTask);
 
-//All task
-router.get("/tasks", async (req, res) => {
+// PULLS UP THE MAIN LANDING PAGE ONCE SIGNUP IS COMPLETE OR LOGIN OK
+router.get("/", async (req, res) => {
   try {
     const tasksData = await Task.findAll({
       include: [
@@ -80,8 +80,26 @@ router.get("/tasks", async (req, res) => {
       ],
     });
 
+    const employeeData = await Employee.findAll({
+      attributes: { exclude: ["password"] },
+    });
+
+    const employees = employeeData.map((employee) =>
+      employee.get({ plain: true }),
+    );
+
+    console.log(employees);
+
+    const loggedInUser = req.session.logged_in
+      ? employees.find((employee) => employee.id === req.session.user_id)
+      : null;
+
+    console.log(loggedInUser);
+
     const tasks = tasksData.map((task) => task.get({ plain: true }));
     res.render("teamTaskBoard", {
+      loggedInUser,
+      employees,
       tasks,
       logged_in: req.session.logged_in,
     });
@@ -90,8 +108,34 @@ router.get("/tasks", async (req, res) => {
   }
 });
 
+// POST REQUESTS IN /TASKS
+router.post("/", async (req, res) => {
+  try {
+    const taskData = await Task.create({
+      task_name: req.body.task_name,
+      description: req.body.description,
+      deadline: req.body.deadline,
+      status_id: req.body.status_id,
+    });
+
+    if (req.body.employeeIds.length) {
+      const taskEmployeeArr = req.body.employeeIds.map((employeeId) => {
+        return {
+          employee_id: employeeId.employee_id,
+          task_id: taskData.id,
+        };
+      });
+      res.status(200).json(await EmployeeTask.bulkCreate(taskEmployeeArr));
+    } else {
+      res.status(200).json(taskData);
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 //Individual task
-router.get("/tasks/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const tasksData = await Task.findByPk(req.params.id, {
       include: [
@@ -113,13 +157,47 @@ router.get("/tasks/:id", async (req, res) => {
   }
 });
 
+router.put("/:id", async (req, res) => {
+  try {
+    Task.update(req.body, {
+      where: { id: req.params.id },
+    }).then((updatedRows) => {
+      if (updatedRows[0] === 0) {
+        res.status(404).json({ message: "No task found with this id!" });
+        return;
+      }
+
+      res.status(200).json({ message: "Task updated successfully!" });
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const taskData = await Task.destroy({
+      where: { id: req.params.id },
+    });
+    if (!taskData) {
+      res
+        .status(404)
+        .json({ message: `No tasks found with this id: ${req.params.id}!` });
+      return;
+    }
+    res.status(200).json(taskData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 // Update a tasks status
 // (Uses the TaskStatus table to change the assigned id of task status in the Tasks table, insomnia PATCH http://localhost:3000/tasks/1/status)
 // JSON
 // {
 //  "status_name": "Completed"    (/models TaskStatus.js for other task statuses)
 // }
-router.patch("/tasks/:id/status", async (req, res) => {
+router.patch("/:id/status", async (req, res) => {
   try {
     const statusData = await TaskStatus.findOne({
       where: {
@@ -276,28 +354,6 @@ router.get("/employees/:id", async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-});
-
-// Login page
-router.get("/login", (req, res) => {
-  // If the user is already logged in, redirect the request to another route
-  if (req.session.logged_in) {
-    res.redirect("/employees");
-    return;
-  }
-
-  res.render("login");
-});
-
-//signup page
-router.get("/signup", (req, res) => {
-  // If the user is already logged in, redirect the request to another route
-  if (req.session.logged_in) {
-    res.redirect("/employees");
-    return;
-  }
-
-  res.render("signup");
 });
 
 module.exports = router;

@@ -10,7 +10,7 @@ loginForm.addEventListener("submit", async (e) => {
   const password = document.getElementById("password").value.trim();
 
   if (username && password) {
-    const response = await fetch("/login", {
+    const response = await fetch("/", {
       method: "POST",
       body: JSON.stringify({
         username,
@@ -18,6 +18,7 @@ loginForm.addEventListener("submit", async (e) => {
       }),
       headers: { "Content-Type": "application/json" },
     });
+    console.log(response);
 
     if (response.ok) {
       document.location.replace("/tasks");

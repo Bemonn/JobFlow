@@ -1,7 +1,7 @@
 const express = require("express");
 
 const router = express.Router();
-const { Employee } = require("../../models");
+const { Employee } = require("../models");
 
 // // get information for all employees
 
@@ -75,8 +75,8 @@ router.put("/:id", async (req, res) => {
         where: { id: req.params.id },
       },
     ).then((updatedEmployee) => {
-        res.json(updatedEmployee);
-      });
+      res.json(updatedEmployee);
+    });
   } catch (err) {
     res.status(500).json(err);
   }
