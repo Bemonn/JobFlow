@@ -19,8 +19,6 @@ router.get("/", async (req, res) => {
       return;
     }
 
-    // const tasks = tasksData.map((task) => task.get({ plain: true }));
-
     res.status(200).json(tasksData);
   } catch (err) {
     res.status(500).json(err);
@@ -78,16 +76,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-// // Create task
-// router.post("/", async (req, res) => {
-//   try {
-//     const task = await Task.create(req.body);
-//     res.status(201).json({ task });
-//   } catch (error) {
-//     res.status(500).json({ msg: error });
-//   }
-// });
-
 // Update a task
 router.put("/:id", async (req, res) => {
   try {
@@ -99,7 +87,7 @@ router.put("/:id", async (req, res) => {
       return;
     }
 
-    if (req.body.employeeIds.length) {
+    if (req.body.employeeIds) {
       const newTaskEmployeeArr = req.body.employeeIds.map((employeeId) => {
         return {
           employee_id: employeeId.employee_id,
@@ -124,26 +112,6 @@ router.put("/:id", async (req, res) => {
     res.status(500).json(err);
   }
 });
-// router.put("/:id", async (req, res) => {
-//   try {
-//     const taskData = await Task.update(req.body, {
-//       where: { id: req.params.id },
-//     }).then((updatedTask) => {
-//       res.json(updatedTask);
-//     });
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
-
-// // Update task
-// router.patch("/:id", async (req, res) => {
-//   try {
-//     res.status(200).json({ msg: "Update logic needed" });
-//   } catch (error) {
-//     res.status(500).json({ msg: error });
-//   }
-// });
 
 // Delete a task
 router.delete("/:id", async (req, res) => {
@@ -162,24 +130,5 @@ router.delete("/:id", async (req, res) => {
     res.status(500).json(err);
   }
 });
-
-// // Delete task
-// router.delete("/:id", async (req, res) => {
-//   try {
-//     const deleteData = await Task.destroy({
-//       where: {
-//         id: req.params.id,
-//         user_id: req.session.user_id,
-//       },
-//     });
-//     if (!deleteData) {
-//       res.status(404).json({ message: "No task found with this id!" });
-//       return;
-//     }
-//     res.status(200).json(deleteData);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
 
 module.exports = router;

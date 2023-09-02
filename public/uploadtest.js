@@ -102,8 +102,8 @@ const uploadImage = () => {
 function updateProfileUrl(url) {
   const request = {
     method: "PUT",
-    body: JSON.stringify({ 'url':url }),
-    HEADERS: { "Content-Type": "application/json; charset=utf-8"},
-  }
+    body: JSON.stringify({ url: url }),
+    HEADERS: { "Content-Type": "application/json; charset=utf-8" },
+  };
   fetch("/api/Employees/4", request);
 }
