@@ -19,8 +19,6 @@ router.get("/", async (req, res) => {
       return;
     }
 
-    // const tasks = tasksData.map((task) => task.get({ plain: true }));
-
     res.status(200).json(tasksData);
   } catch (err) {
     res.status(500).json(err);
