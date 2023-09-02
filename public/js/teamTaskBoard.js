@@ -1,17 +1,17 @@
 // sortablejs
 const cardOpenTaskSortable = new Sortable(cardOpenTask, {
-  group: "sharedGroupOne", // set both lists to same group
+  // group: "sharedGroupOne", // set both lists to same group
   animation: 150,
   ghostClass: "blue-background-class",
 });
 const cardInProgressSortable = new Sortable(cardInProgress, {
-  group: "sharedGroupOne",
+  // group: "sharedGroupOne",
   animation: 150,
   ghostClass: "blue-background-class",
 });
 
 const cardCompletedSortable = new Sortable(cardCompleted, {
-  group: "sharedGroupOne",
+  // group: "sharedGroupOne",
   animation: 150,
   ghostClass: "blue-background-class",
 });
