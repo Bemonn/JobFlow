@@ -44,12 +44,12 @@ const modalDropdownMenu = document.getElementById("modalDropdownMenu");
 const modalSaveBtn = document.getElementById("modalSaveBtn");
 const modalDeleteBtn = document.getElementById("modalDeleteBtn");
 
-// global vars
+// global vars initialisation
 var dropDownEmployeesData = [];
 var modalTaskEmployees = [];
-var modalStatusId;
-var modalTaskName;
-var modalDescription;
+var modalStatusId = 1;
+var modalTaskName = "Enter a task name";
+var modalDescription = "Enter task description";
 var modalTaskId;
 
 // Onclick event listener to each card element
@@ -91,15 +91,21 @@ cardElements.forEach((card) => {
       renderModalTaskEmployee();
       renderModalEmployeeDropdown();
       setTheModalStatus();
+
+      // remove the modalCreateBtnOnClick event listener
+      modalSaveBtn.removeEventListener("click", modalCreateBtnOnClick);
+      modalSaveBtn.addEventListener("click", modalUpdateBtnOnClick);
+      modalDeleteBtn.style.visibility = "visible";
+
+      // modalSaveBtn.addEventListener("click", modalCreateBtnOnClick);
     } else {
       console.log("taskCard not found");
     }
   });
 });
 
-// modalSaveBtn EventListener
-modalSaveBtn.addEventListener("click", (event) => {
-  console.log("modalSaveBtn");
+// modalCreateBtnOnClick EventListener
+function modalCreateBtnOnClick(event) {
   const thisUrl = url + "api/tasks/";
 
   // Create the request headers
@@ -136,12 +142,57 @@ modalSaveBtn.addEventListener("click", (event) => {
     .then((data) => {
       // Handle the response data here if needed
       console.log("POST request successful:", data);
+      window.location.reload();
     })
     .catch((error) => {
       // Handle any errors that occurred during the fetch
       console.error("Error:", error);
     });
-});
+}
+
+function modalUpdateBtnOnClick(event) {
+  const thisUrl = url + `api/tasks/${modalTaskId}`;
+
+  // Create the request headers
+  const headers = {
+    "Content-Type": "application/json",
+  };
+
+  const taskData = {
+    task_name: modalTaskName,
+    description: modalDescription,
+    deadline: convertDateFormat(modalDeadlineText.value),
+    status_id: modalStatusId,
+    employeeIds: modalTaskEmployees.map((employee) => {
+      return { employee_id: employee.id };
+    }),
+  };
+
+  // // Create the request options
+  const requestOptions = {
+    method: "PUT",
+    headers: headers,
+    body: JSON.stringify(taskData),
+  };
+
+  // // Send the POST request
+  fetch(thisUrl, requestOptions)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      // Handle the response data here if needed
+      console.log("POST request successful:", data);
+      window.location.reload();
+    })
+    .catch((error) => {
+      // Handle any errors that occurred during the fetch
+      console.error("Error:", error);
+    });
+}
 
 //getTaskData
 const getTaskData = async (modalTaskId) => {
@@ -160,8 +211,22 @@ const getEmployeesData = async () => {
 };
 
 // addEventListener
-modalDeleteBtn.addEventListener("click", (event) => {
-  console.log("modalDeleteBtn");
+modalDeleteBtn.addEventListener("click", async (event) => {
+  try {
+    const urlTask = url + `api/tasks/${modalTaskId}`;
+    const response = await fetch(urlTask, {
+      method: "DELETE",
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    // The resource has been successfully deleted.
+    window.location.reload();
+    // return { success: true };
+  } catch (error) {
+    console.error("Error:", error);
+    // return { success: false, error: error.message };
+  }
 });
 
 // ---
@@ -214,26 +279,29 @@ const setTheModalStatus = () => {
 // EventListener addCardBtns
 const addCardBtns = document.querySelectorAll(".addCard");
 addCardBtns.forEach((addCardBtn) => {
-  addCardBtn.addEventListener("click", async (event) => {
-    event.stopPropagation();
-
-    modalIDLabel.innerHTML = "Task ID: AUTO Generated";
-    modalNameInput.value = "Enter a task name";
-    modelDescriptionText.value = "Enter task description";
-    modalDeadlineText.innerHTML = "-- / -- / ----";
-    modalAvatarIcons.innerHTML = "";
-    modalStatusBtn.innerHTML = "Open Task";
-    modalStatusBtn.classList.replace(
-      modalStatusBtn.classList[1],
-      "btn-primary",
-    );
-    console.log("asdfsadfa");
-    dropDownEmployeesData = [];
-    modalTaskEmployees = [];
-    dropDownEmployeesData = await getEmployeesData();
-    renderModalEmployeeDropdown(dropDownEmployeesData);
-  });
+  // remove the modalCreateBtnOnClick event listener
+  addCardBtn.addEventListener("click", addCardBtnOnClickEventListener);
 });
+
+//addCardBtnOnClickEventListener
+async function addCardBtnOnClickEventListener(event) {
+  event.stopPropagation();
+  modalIDLabel.innerHTML = "Task ID: AUTO Generated";
+  modalNameInput.value = "Enter a task name";
+  modelDescriptionText.value = "Enter task description";
+  modalDeadlineText.innerHTML = "-- / -- / ----";
+  modalAvatarIcons.innerHTML = "";
+  modalStatusBtn.innerHTML = "Open Task";
+  modalStatusBtn.classList.replace(modalStatusBtn.classList[1], "btn-primary");
+  console.log("asdfsadfa");
+  dropDownEmployeesData = [];
+  modalTaskEmployees = [];
+  dropDownEmployeesData = await getEmployeesData();
+  renderModalEmployeeDropdown(dropDownEmployeesData);
+  modalSaveBtn.removeEventListener("click", modalUpdateBtnOnClick);
+  modalSaveBtn.addEventListener("click", modalCreateBtnOnClick);
+  modalDeleteBtn.style.visibility = "hidden";
+}
 
 dropdownAddEmployeeBtn.addEventListener("click", (event) => {
   event.stopPropagation();

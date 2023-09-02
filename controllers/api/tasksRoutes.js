@@ -99,7 +99,7 @@ router.put("/:id", async (req, res) => {
       return;
     }
 
-    if (req.body.employeeIds.length) {
+    if (req.body.employeeIds) {
       const newTaskEmployeeArr = req.body.employeeIds.map((employeeId) => {
         return {
           employee_id: employeeId.employee_id,
