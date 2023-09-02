@@ -5,15 +5,12 @@ const express = require("express");
 
 const session = require("express-session"); // import express-session
 const exphbs = require("express-handlebars");
-const tasks = require("./controllers/api/tasksRoutes");
 const sequelize = require("./config/connection");
 const routes = require("./controllers");
-const userRouter = require("./controllers/api/userRoutes");
 
 const app = express();
 
-// const PORT = process.env.PORT || 3001;
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 const hbs = exphbs.create({
   helpers: {
@@ -41,7 +38,11 @@ app.use(
     secret: "your_secret_key", // this secret will be used for signing the session ID cookie. Change it to your own secret string.
     resave: false, // force the session to be saved back to the session store
     saveUninitialized: false, // save uninitialized session to the store
-    cookie: { secure: "auto" }, // automatically set the cookie as secure if the request is secure
+    cookie: {
+      secure: "auto",
+      httpOnly: true,
+      maxAge: 72 * 60 * 60 * 1000, // 72 hours in milliseconds
+    }, // automatically set the cookie as secure if the request is secure
   }),
 );
 
@@ -50,8 +51,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(routes);
-app.use("/api", routes);
-app.use("/api", userRouter);
 
 // Basic server routes
 // app.get("/", (req, res) => {

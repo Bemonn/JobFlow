@@ -106,7 +106,7 @@ cardElements.forEach((card) => {
 
 // modalCreateBtnOnClick EventListener
 function modalCreateBtnOnClick(event) {
-  const thisUrl = url + "api/tasks/";
+  const thisUrl = url + "tasks/";
 
   // Create the request headers
   const headers = {
@@ -151,7 +151,7 @@ function modalCreateBtnOnClick(event) {
 }
 
 function modalUpdateBtnOnClick(event) {
-  const thisUrl = url + `api/tasks/${modalTaskId}`;
+  const thisUrl = url + `tasks/${modalTaskId}`;
 
   // Create the request headers
   const headers = {
@@ -196,7 +196,7 @@ function modalUpdateBtnOnClick(event) {
 
 //getTaskData
 const getTaskData = async (modalTaskId) => {
-  const urlTask = url + `api/tasks/${modalTaskId}`;
+  const urlTask = url + `tasks/${modalTaskId}`;
   return await fetch(urlTask, {
     method: "GET",
   }).then((res) => res.json());
@@ -204,7 +204,7 @@ const getTaskData = async (modalTaskId) => {
 
 // getEmployeesData
 const getEmployeesData = async () => {
-  const urlEmployees = url + "api/employees/";
+  const urlEmployees = url + "employees/";
   return await fetch(urlEmployees, {
     method: "GET",
   }).then((res) => res.json());
@@ -213,7 +213,7 @@ const getEmployeesData = async () => {
 // addEventListener
 modalDeleteBtn.addEventListener("click", async (event) => {
   try {
-    const urlTask = url + `api/tasks/${modalTaskId}`;
+    const urlTask = url + `tasks/${modalTaskId}`;
     const response = await fetch(urlTask, {
       method: "DELETE",
     });
