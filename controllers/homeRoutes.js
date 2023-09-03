@@ -33,72 +33,6 @@ router.get("/tasks", withAuth, async (req, res) => {
     res.status(500).json(err);
   }
 });
-// router.get("/tasks", async (req, res) => {
-//   try {
-//     const tasksData = await Task.findAll({
-//       include: [
-//         {
-//           model: TaskStatus,
-//         },
-//         { model: Employee, through: EmployeeTask, as: "task_employees" },
-//       ],
-//     });
-//     if (!tasksData) {
-//       res.status(404).json({ message: "No tasks found!" });
-//       return;
-//     }
-
-//     res.status(200).json(tasksData);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
-
-// Individual task
-// router.get("/tasks/:id", withAuth, async (req, res) => {
-//   try {
-//     const tasksData = await Task.findByPk(req.params.id, {
-//       include: [
-//         {
-//           model: TaskStatus,
-//         },
-//         { model: Employee, through: EmployeeTask, as: "task_employees" },
-//       ],
-//     });
-
-//     const task = tasksData.get({ plain: true });
-
-//     res.render("teamTaskBoard", {
-//       ...task,
-//       logged_in: req.session.logged_in,
-//     });
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
-// router.get("/tasks/:id", async (req, res) => {
-//   try {
-//     const taskData = await Task.findOne({
-//       where: { id: req.params.id },
-//       include: [
-//         {
-//           model: TaskStatus,
-//         },
-//         { model: Employee, through: EmployeeTask, as: "task_employees" },
-//       ],
-//     });
-//     if (!taskData) {
-//       res
-//         .status(404)
-//         .json({ message: `No tasks found with this id: ${req.params.id}!` });
-//       return;
-//     }
-
-//     res.status(200).json(taskData);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
 
 // Get information for all employees
 router.get("/employees", withAuth, async (req, res) => {
@@ -143,34 +77,6 @@ router.get("/api/employees", withAuth, async (req, res) => {
   }
 });
 
-// // Get information for all employees
-// router.get("/api/employees", withAuth, async (req, res) => {
-//   try {
-//     // Find all employees
-//     console.log(111);
-
-//     const employeesData = await Employee.findAll({
-//       attributes: { exclude: ["password"] },
-//     });
-//     console.log(222);
-
-//     if (!employeesData || employeesData.length === 0) {
-//       res.status(404).json({ message: "No employees found!" });
-//       return;
-//     }
-//     console.log(333);
-
-//     const employees = employeesData.map((employee) =>
-//       employee.get({ plain: true }),
-//     );
-//     // console.log(employees);
-//     console.log(employeesData);
-
-//     res.status(200).json(employeesData);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
 
 // Get information for one employee
 router.get("/employees/:id", withAuth, async (req, res) => {
