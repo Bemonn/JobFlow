@@ -63,6 +63,44 @@ var modalStatusId = 1;
 var modalTaskName = "Enter a task name";
 var modalDescription = "Enter task description";
 var modalTaskId;
+var allTaskData;
+var allEmployeesData;
+
+//getTaskData
+const getAllTaskData = async () => {
+  const urlTask = url + "api/tasks/";
+
+  return await fetch(urlTask, {
+    method: "GET",
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      // Handle the response data here if needed
+      if (!data) return;
+      allTaskData = data;
+      // console.log(data);
+    })
+    .catch((err) => {
+      console.error(`Err${err}`);
+    });
+};
+
+// getEmployeesData
+const getEmployeesData = async () => {
+  const urlEmployees = url + "api/employees/";
+
+  return await fetch(urlEmployees, {
+    method: "GET",
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (!data) return;
+      allEmployeesData = data;
+    })
+    .catch((err) => {
+      console.error(`Err${err}`);
+    });
+};
 
 // Onclick event listener to each card element
 cardElements.forEach((card) => {
@@ -76,10 +114,9 @@ cardElements.forEach((card) => {
       modalTaskId = taskCard.getAttribute("data-task-id");
 
       // Get the task details
-      const taskData = await getTaskData(modalTaskId);
-
+      // const taskData = await getTaskData(modalTaskId);
+      const taskData = getTaskData(modalTaskId)[0];
       // Get employeea details
-      const employeesData = await getEmployeesData();
 
       modalTaskName = taskData.task_name;
       modalDescription = taskData.description;
@@ -91,10 +128,9 @@ cardElements.forEach((card) => {
       modelDescriptionText.value = modalDescription;
 
       modalDeadlineText.value = deadlineDiv.textContent.trim();
-
       // load employee to task modal, add employee drop down
       modalDropdownMenu.innerHTML = "";
-      dropDownEmployeesData = employeesData.filter(
+      dropDownEmployeesData = allEmployeesData.filter(
         (employeeData) =>
           !taskData.task_employees.some(
             (task_employee) => task_employee.id === employeeData.id,
@@ -211,29 +247,10 @@ function modalUpdateBtnOnClick(event) {
 }
 
 //getTaskData
-const getTaskData = async (modalTaskId) => {
-  const urlTask = url + `api/tasks/${modalTaskId}`;
-
-  return await fetch(urlTask, {
-    method: "GET",
-  })
-    .then((res) => res.json())
-    .catch((err) => {
-      console.error(`Err${err}`);
-    });
-};
-
-// getEmployeesData
-const getEmployeesData = async () => {
-  const urlEmployees = url + "api/employees/";
-
-  return await fetch(urlEmployees, {
-    method: "GET",
-  })
-    .then((res) => res.json())
-    .catch((err) => {
-      console.error(`Err${err}`);
-    });
+const getTaskData = (modalTaskId) => {
+  return allTaskData.filter((taskData) => {
+    return taskData.id === parseInt(modalTaskId);
+  });
 };
 
 // addEventListener
@@ -319,10 +336,10 @@ async function addCardBtnOnClickEventListener(event) {
   modalAvatarIcons.innerHTML = "";
   modalStatusBtn.innerHTML = "Open Task";
   modalStatusBtn.classList.replace(modalStatusBtn.classList[1], "btn-primary");
-  dropDownEmployeesData = [];
+  // dropDownEmployeesData = [];
   modalTaskEmployees = [];
-  dropDownEmployeesData = await getEmployeesData();
-  renderModalEmployeeDropdown(dropDownEmployeesData);
+  dropDownEmployeesData = allEmployeesData;
+  renderModalEmployeeDropdown(allEmployeesData);
   modalSaveBtn.removeEventListener("click", modalUpdateBtnOnClick);
   modalSaveBtn.addEventListener("click", modalCreateBtnOnClick);
   modalDeleteBtn.style.visibility = "hidden";
@@ -374,7 +391,10 @@ const renderModalTaskEmployee = () => {
 // load current task_employees to task modal
 const renderModalEmployeeDropdown = () => {
   modalDropdownMenu.innerHTML = "";
-
+  // console.log(dropDownEmployeesData);
+  // if (!dropDownEmployeesData) {
+  //   dropDownEmployeesData = [];
+  // }
   dropDownEmployeesData.forEach((dropDownEmployeeData) => {
     if (!dropDownEmployeeData.profile_pic_link) {
       dropDownEmployeeData.profile_pic_link = profileImgPlaceHolder;
@@ -440,3 +460,6 @@ logoutBtn.addEventListener("click", async (e) => {
     alert("Failed to logout");
   }
 });
+
+getAllTaskData();
+getEmployeesData();
