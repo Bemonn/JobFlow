@@ -74,9 +74,6 @@ cardElements.forEach((card) => {
     const cardAvatarIcons = taskCard.querySelector(".cardAvatarIcons");
     if (taskCard) {
       modalTaskId = taskCard.getAttribute("data-task-id");
-      modalTaskName = taskCard.getAttribute("data-task-name");
-      modalDescription = taskCard.getAttribute("data-task-description");
-      modalStatusId = taskCard.getAttribute("data-status-id");
 
       // Get the task details
       const taskData = await getTaskData(modalTaskId);
@@ -84,10 +81,15 @@ cardElements.forEach((card) => {
       // Get employeea details
       const employeesData = await getEmployeesData();
 
+      modalTaskName = taskData.task_name;
+      modalDescription = taskData.description;
+      modalStatusId = taskData.status_id;
+
       // set modal content
       modalIDLabel.innerHTML = `Task ID: ${modalTaskId}`;
       modalNameInput.value = modalTaskName;
       modelDescriptionText.value = modalDescription;
+
       modalDeadlineText.value = deadlineDiv.textContent.trim();
 
       // load employee to task modal, add employee drop down
