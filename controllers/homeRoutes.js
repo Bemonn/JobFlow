@@ -32,8 +32,6 @@ router.get("/tasks", withAuth, async (req, res) => {
       employee.get({ plain: true }),
     );
 
-    console.log(employees);
-
     const loggedInUser = req.session.logged_in
       ? employees.find((employee) => employee.id === req.session.user_id)
       : null;
@@ -101,8 +99,6 @@ router.get("/employees/:id", withAuth, async (req, res) => {
     });
 
     if (!employeeData) {
-      console.log("4033");
-
       res.status(404).json({ message: "No employee found with this id!" });
       return;
     }

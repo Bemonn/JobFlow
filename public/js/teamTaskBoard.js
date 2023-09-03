@@ -144,7 +144,7 @@ function modalCreateBtnOnClick(event) {
     headers: headers,
     body: JSON.stringify(taskData),
   };
-  // console.log(taskData);
+  console.log(taskData);
   // Send the POST request
   fetch(thisUrl, requestOptions)
     .then((response) => {
