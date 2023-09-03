@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     button.addEventListener("click", (e) => {
       const id = e.target.getAttribute("data-id");
 
-      fetch(`/api/employee/${id}`, {
+      fetch(`/employees/${id}`, {
         method: "DELETE",
       }).then((res) => {
         window.location.reload();

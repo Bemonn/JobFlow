@@ -1,37 +1,14 @@
 const express = require("express");
 
 const router = express.Router();
-const { Employee } = require("../../models");
-
-// // get information for all employees
-
-router.get("/", async (req, res) => {
-  try {
-    const employeeData = await Employee.findAll({});
-    res.status(200).json(employeeData);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
-// // get information for one employee
-
-// router.get("/:id", async (req, res) => {
-//   try {
-//     const employeeData = await Employee.findByPk(req.params.id);
-//     if (!employeeData) {
-//       res.status(404).json({ message: "No employee found with this id!" });
-//       return;
-//     }
-//     res.status(200).json(employeeData);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
+const { EmployeeTask, Task, TaskStatus, Employee } = require("../models");
+const withAuth = require("../utils/auth");
 
 // Make an employee
-router.post("/", async (req, res) => {
+router.post("/", withAuth, async (req, res) => {
   try {
+    console.log(11);
+
     const employeeData = await Employee.create(req.body);
 
     req.session.save(() => {

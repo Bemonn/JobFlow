@@ -23,7 +23,18 @@ const cardCompletedSortable = new Sortable(cardCompleted, {
 // });
 
 //  modal
-const url = "http://localhost:3001/";
+let url;
+
+if (
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1"
+) {
+  // Running locally
+  url = "http://localhost:3001/";
+} else {
+  // Running on a remote server
+  url = window.location.origin + "/";
+}
 
 const cardElements = document.querySelectorAll(".taskCard");
 const taskModel = document.getElementById("exampleModal");
@@ -43,6 +54,7 @@ const dropdownAddEmployeeBtn = document.getElementById(
 const modalDropdownMenu = document.getElementById("modalDropdownMenu");
 const modalSaveBtn = document.getElementById("modalSaveBtn");
 const modalDeleteBtn = document.getElementById("modalDeleteBtn");
+const profileImgPlaceHolder = "../img/undraw_profile_1.svg";
 
 // global vars initialisation
 var dropDownEmployeesData = [];
@@ -57,7 +69,6 @@ cardElements.forEach((card) => {
   card.addEventListener("click", async (event) => {
     event.stopPropagation();
 
-    // console.log(event.target);
     const taskCard = event.target.closest(".taskCard");
     const deadlineDiv = taskCard.querySelector(".deadlineDiv");
     const cardAvatarIcons = taskCard.querySelector(".cardAvatarIcons");
@@ -87,14 +98,18 @@ cardElements.forEach((card) => {
             (task_employee) => task_employee.id === employeeData.id,
           ),
       );
+
       modalTaskEmployees = taskData.task_employees;
+
       renderModalTaskEmployee();
       renderModalEmployeeDropdown();
       setTheModalStatus();
 
       // remove the modalCreateBtnOnClick event listener
       modalSaveBtn.removeEventListener("click", modalCreateBtnOnClick);
+
       modalSaveBtn.addEventListener("click", modalUpdateBtnOnClick);
+
       modalDeleteBtn.style.visibility = "visible";
 
       // modalSaveBtn.addEventListener("click", modalCreateBtnOnClick);
@@ -123,14 +138,12 @@ function modalCreateBtnOnClick(event) {
     }),
   };
 
-  console.log(taskData);
   // Create the request options
   const requestOptions = {
     method: "POST",
     headers: headers,
     body: JSON.stringify(taskData),
   };
-
   // Send the POST request
   fetch(thisUrl, requestOptions)
     .then((response) => {
@@ -197,17 +210,27 @@ function modalUpdateBtnOnClick(event) {
 //getTaskData
 const getTaskData = async (modalTaskId) => {
   const urlTask = url + `api/tasks/${modalTaskId}`;
+
   return await fetch(urlTask, {
     method: "GET",
-  }).then((res) => res.json());
+  })
+    .then((res) => res.json())
+    .catch((err) => {
+      console.error(`Err${err}`);
+    });
 };
 
 // getEmployeesData
 const getEmployeesData = async () => {
   const urlEmployees = url + "api/employees/";
+
   return await fetch(urlEmployees, {
     method: "GET",
-  }).then((res) => res.json());
+  })
+    .then((res) => res.json())
+    .catch((err) => {
+      console.error(`Err${err}`);
+    });
 };
 
 // addEventListener
@@ -293,7 +316,6 @@ async function addCardBtnOnClickEventListener(event) {
   modalAvatarIcons.innerHTML = "";
   modalStatusBtn.innerHTML = "Open Task";
   modalStatusBtn.classList.replace(modalStatusBtn.classList[1], "btn-primary");
-  console.log("asdfsadfa");
   dropDownEmployeesData = [];
   modalTaskEmployees = [];
   dropDownEmployeesData = await getEmployeesData();
@@ -325,26 +347,23 @@ const modalEmployeeDropdownOnClick = (employeeData, event) => {
 const renderModalTaskEmployee = () => {
   modalAvatarIcons.innerHTML = "";
   modalTaskEmployees.forEach((taskEmployee) => {
+    if (!taskEmployee.profile_pic_link) {
+      taskEmployee.profile_pic_link = profileImgPlaceHolder;
+    }
     const imgElement = document.createElement("img");
-
     imgElement.setAttribute("height", "30px");
     imgElement.setAttribute("width", "30px");
     imgElement.setAttribute("class", "mx-1 img-profile rounded-circle");
     imgElement.setAttribute("data-employee-id", taskEmployee.id);
     imgElement.setAttribute("src", taskEmployee.profile_pic_link);
-
     imgElement.addEventListener("click", (event) => {
-      // console.log(taskEmployee.id);
       modalTaskEmployees = modalTaskEmployees.filter(
         (data) => data.id !== taskEmployee.id,
       );
       renderModalTaskEmployee();
       dropDownEmployeesData.push(taskEmployee);
-      // console.log(taskEmployee);
-
       renderModalEmployeeDropdown();
     });
-
     modalAvatarIcons.appendChild(imgElement);
   });
 };
@@ -352,10 +371,14 @@ const renderModalTaskEmployee = () => {
 // load current task_employees to task modal
 const renderModalEmployeeDropdown = () => {
   modalDropdownMenu.innerHTML = "";
+
   dropDownEmployeesData.forEach((dropDownEmployeeData) => {
+    if (!dropDownEmployeeData.profile_pic_link) {
+      dropDownEmployeeData.profile_pic_link = profileImgPlaceHolder;
+    }
     const newListItem = document.createElement("li");
     newListItem.innerHTML = `
-    <li 
+    <li
       data-employee-id = ${dropDownEmployeeData.id}>
       <div class="dropdown-item" href="#">
         <img
