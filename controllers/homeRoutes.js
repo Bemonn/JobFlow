@@ -24,8 +24,23 @@ router.get("/tasks", withAuth, async (req, res) => {
       ],
     });
 
+    const employeeData = await Employee.findAll({
+      attributes: { exclude: ["password"] },
+    });
+
+    const employees = employeeData.map((employee) =>
+      employee.get({ plain: true }),
+    );
+
+    console.log(employees);
+
+    const loggedInUser = req.session.logged_in
+      ? employees.find((employee) => employee.id === req.session.user_id)
+      : null;
+
     const tasks = tasksData.map((task) => task.get({ plain: true }));
     res.render("teamTaskBoard", {
+      loggedInUser,
       tasks,
       logged_in: req.session.logged_in,
     });
@@ -76,7 +91,6 @@ router.get("/api/employees", withAuth, async (req, res) => {
     res.status(500).json(err);
   }
 });
-
 
 // Get information for one employee
 router.get("/employees/:id", withAuth, async (req, res) => {

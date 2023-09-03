@@ -59,9 +59,10 @@
 				<div class='topbar-divider d-none d-sm-block'></div>
 
 				{{!-- nav-user-dropdown --}}
+				{{#if loggedInUser}}
 				<div class="btn-group" id = "nav-user-dropdown">
 					<button class="btn rounded-3" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-						<span class='mr-2 d-none d-lg-inline text-gray-600 small'>Sophia Martinez</span>
+						<span class='mr-2 d-none d-lg-inline text-gray-600 small'>Username: {{loggedInUser.username}}</span>
 						<img
 						height="30px"
 						width="30px"
@@ -70,10 +71,12 @@
 						/>						
 					</button>
 					<ul class="dropdown-menu dropdown-menu-end dropdown-menu-sm-end">
-						<li><button class="dropdown-item" type="button">Profile</button></li>
-						<li><button class="dropdown-item" type="button">Logout</button></li>
+						<li><button class="dropdown-item" type="button">Name: {{loggedInUser.first_name}} {{loggedInUser.last_name}}</button></li>
+						<li><button class="dropdown-item" type="button">Position: {{loggedInUser.position}}</button></li>
+						<li><button class="dropdown-item" type="button" id="logout">Logout</button></li>
 					</ul>
 				</div>
+				{{/if}}
 
 			</ul>
 
