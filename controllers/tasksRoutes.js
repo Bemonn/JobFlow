@@ -75,7 +75,7 @@ router.post("/", withAuth, async (req, res) => {
     }
 
     res.status(201).json({ message: "Task created", task });
-  } catch (error) {
+  } catch (err) {
     res.status(500).json(err);
   }
 });

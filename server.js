@@ -12,6 +12,7 @@ const app = express();
 
 const PORT = process.env.PORT || 3001;
 
+
 const hbs = exphbs.create({
   helpers: {
     compare: function (variableOne, comparator, variableTwo) {
@@ -51,17 +52,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(routes);
-
-// Basic server routes
-// app.get("/", (req, res) => {
-//   // Counting views for the current session
-//   req.session.views = (req.session.views || 0) + 1;
-//   res.send(
-//     `Hello World! You have viewed this page ${req.session.views} times.`,
-//   );
-// });
-
-// app.use("/tasks", tasks);
 
 sequelize
   .sync({ force: false })
