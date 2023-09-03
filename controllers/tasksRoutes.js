@@ -67,7 +67,7 @@ router.post("/", withAuth, async (req, res) => {
     // If there are associated employees, create EmployeeTask records
     if (employeeIds && Array.isArray(employeeIds)) {
       const employeeTaskRecords = employeeIds.map((employeeId) => ({
-        employee_id: employeeId,
+        employee_id: employeeId.employee_id,
         task_id: task.id,
       }));
 
