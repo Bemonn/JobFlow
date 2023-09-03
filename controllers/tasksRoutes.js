@@ -3,7 +3,7 @@ const { EmployeeTask, Task, TaskStatus, Employee } = require("../models");
 const withAuth = require("../utils/auth");
 
 // // Get information for all tasks
-router.get("/", async (req, res) => {
+router.get("/", withAuth, async (req, res) => {
   try {
     const tasksData = await Task.findAll({
       include: [
