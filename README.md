@@ -65,6 +65,12 @@ The application can run in any Web browser such as Chrome or Safari. It can also
 For further information about running the application look at the project description at the top of this readme on how to use the site.
 
 ## Screenshots
+![Login](https://github.com/Bemonn/JobFlow/assets/133621780/0d4add01-816c-49b1-9970-2eacbe364afe)
+![Signup](https://github.com/Bemonn/JobFlow/assets/133621780/611b541e-603b-41a2-8bf7-a530333df347)
+![Task board page](https://github.com/Bemonn/JobFlow/assets/133621780/bd3e8e60-d1b8-4687-a408-3d32cc7ca2b6)
+![Task Create](https://github.com/Bemonn/JobFlow/assets/133621780/59649ee8-c6f4-49ea-b6a0-ae1b71b4d114)
+![Task Edit Delete](https://github.com/Bemonn/JobFlow/assets/133621780/53ad49a4-8846-400f-9213-f6bbb773fc24)
+![Employee Dropdown](https://github.com/Bemonn/JobFlow/assets/133621780/f5e3e076-6466-40e6-b962-7eb44081ef89)
 
 ## Credits
 Group 2 Members: Ruihang Hou (Horus), Tristan Brennan, Nils Heyman, Xisheng Chen (Raymond), Ying Jie Puk
